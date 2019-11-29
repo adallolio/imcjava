@@ -31,34 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Home Position (909)<br/>
- *  Vehicle Home Position.<br/>
+ *  IMC Message AIS Static Info (607)<br/>
+ *  The CUCS receives a AIS message containing static informations that info composes to this message.<br/>
  */
 
-public class HomePosition extends IMCMessage {
+public class AisStaticInfo extends IMCMessage {
 
-	public enum OP {
-		SET(1),
-		REPORT(2);
+	public static final int ID_STATIC = 607;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		OP(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 909;
-
-	public HomePosition() {
+	public AisStaticInfo() {
 		super(ID_STATIC);
 	}
 
-	public HomePosition(IMCMessage msg) {
+	public AisStaticInfo(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -68,20 +53,20 @@ public class HomePosition extends IMCMessage {
 		}
 	}
 
-	public HomePosition(IMCDefinition defs) {
+	public AisStaticInfo(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static HomePosition create(Object... values) {
-		HomePosition m = new HomePosition();
+	public static AisStaticInfo create(Object... values) {
+		AisStaticInfo m = new AisStaticInfo();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static HomePosition clone(IMCMessage msg) throws Exception {
+	public static AisStaticInfo clone(IMCMessage msg) throws Exception {
 
-		HomePosition m = new HomePosition();
+		AisStaticInfo m = new AisStaticInfo();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -96,133 +81,138 @@ public class HomePosition extends IMCMessage {
 		return m;
 	}
 
-	public HomePosition(OP op, double lat, double lon, float height, float depth, float alt) {
+	public AisStaticInfo(String id, String callsign, String name, short type_and_cargo, float a, float b, float c, float d) {
 		super(ID_STATIC);
-		setOp(op);
-		setLat(lat);
-		setLon(lon);
-		setHeight(height);
-		setDepth(depth);
-		setAlt(alt);
+		if (id != null)
+			setId(id);
+		if (callsign != null)
+			setCallsign(callsign);
+		if (name != null)
+			setName(name);
+		setTypeAndCargo(type_and_cargo);
+		setA(a);
+		setB(b);
+		setC(c);
+		setD(d);
 	}
 
 	/**
-	 *  @return Action on the vehicle home position (enumerated) - uint8_t
+	 *  @return Id - plaintext
 	 */
-	public OP getOp() {
-		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getOpStr() {
-		return getString("op");
-	}
-
-	public short getOpVal() {
-		return (short) getInteger("op");
+	public String getId() {
+		return getString("id");
 	}
 
 	/**
-	 *  @param op Action on the vehicle home position (enumerated)
+	 *  @param id Id
 	 */
-	public HomePosition setOp(OP op) {
-		values.put("op", op.value());
+	public AisStaticInfo setId(String id) {
+		values.put("id", id);
 		return this;
 	}
 
 	/**
-	 *  @param op Action on the vehicle home position (as a String)
+	 *  @return Callsign - plaintext
 	 */
-	public HomePosition setOpStr(String op) {
-		setValue("op", op);
+	public String getCallsign() {
+		return getString("callsign");
+	}
+
+	/**
+	 *  @param callsign Callsign
+	 */
+	public AisStaticInfo setCallsign(String callsign) {
+		values.put("callsign", callsign);
 		return this;
 	}
 
 	/**
-	 *  @param op Action on the vehicle home position (integer value)
+	 *  @return Name - plaintext
 	 */
-	public HomePosition setOpVal(short op) {
-		setValue("op", op);
+	public String getName() {
+		return getString("name");
+	}
+
+	/**
+	 *  @param name Name
+	 */
+	public AisStaticInfo setName(String name) {
+		values.put("name", name);
 		return this;
 	}
 
 	/**
-	 *  @return Latitude (WGS-84) (rad) - fp64_t
+	 *  @return Type and Cargo - uint8_t
 	 */
-	public double getLat() {
-		return getDouble("lat");
+	public short getTypeAndCargo() {
+		return (short) getInteger("type_and_cargo");
 	}
 
 	/**
-	 *  @param lat Latitude (WGS-84) (rad)
+	 *  @param type_and_cargo Type and Cargo
 	 */
-	public HomePosition setLat(double lat) {
-		values.put("lat", lat);
+	public AisStaticInfo setTypeAndCargo(short type_and_cargo) {
+		values.put("type_and_cargo", type_and_cargo);
 		return this;
 	}
 
 	/**
-	 *  @return Longitude (WGS-84) (rad) - fp64_t
+	 *  @return Size A Length (m) - fp32_t
 	 */
-	public double getLon() {
-		return getDouble("lon");
+	public double getA() {
+		return getDouble("a");
 	}
 
 	/**
-	 *  @param lon Longitude (WGS-84) (rad)
+	 *  @param a Size A Length (m)
 	 */
-	public HomePosition setLon(double lon) {
-		values.put("lon", lon);
+	public AisStaticInfo setA(double a) {
+		values.put("a", a);
 		return this;
 	}
 
 	/**
-	 *  @return Height (WGS-84) (m) - fp32_t
+	 *  @return Size B Length (m) - fp32_t
 	 */
-	public double getHeight() {
-		return getDouble("height");
+	public double getB() {
+		return getDouble("b");
 	}
 
 	/**
-	 *  @param height Height (WGS-84) (m)
+	 *  @param b Size B Length (m)
 	 */
-	public HomePosition setHeight(double height) {
-		values.put("height", height);
+	public AisStaticInfo setB(double b) {
+		values.put("b", b);
 		return this;
 	}
 
 	/**
-	 *  @return Depth (m) - fp32_t
+	 *  @return Size C Width (m) - fp32_t
 	 */
-	public double getDepth() {
-		return getDouble("depth");
+	public double getC() {
+		return getDouble("c");
 	}
 
 	/**
-	 *  @param depth Depth (m)
+	 *  @param c Size C Width (m)
 	 */
-	public HomePosition setDepth(double depth) {
-		values.put("depth", depth);
+	public AisStaticInfo setC(double c) {
+		values.put("c", c);
 		return this;
 	}
 
 	/**
-	 *  @return Altitude (m) - fp32_t
+	 *  @return Size D Width (m) - fp32_t
 	 */
-	public double getAlt() {
-		return getDouble("alt");
+	public double getD() {
+		return getDouble("d");
 	}
 
 	/**
-	 *  @param alt Altitude (m)
+	 *  @param d Size D Width (m)
 	 */
-	public HomePosition setAlt(double alt) {
-		values.put("alt", alt);
+	public AisStaticInfo setD(double d) {
+		values.put("d", d);
 		return this;
 	}
 

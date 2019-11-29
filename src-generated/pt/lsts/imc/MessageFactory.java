@@ -342,6 +342,8 @@ public class MessageFactory {
 				return new GroupStreamVelocity(defs);
 			case Airflow.ID_STATIC:
 				return new Airflow(defs);
+			case ObstacleState.ID_STATIC:
+				return new ObstacleState(defs);
 			case DesiredHeading.ID_STATIC:
 				return new DesiredHeading(defs);
 			case DesiredZ.ID_STATIC:
@@ -374,6 +376,8 @@ public class MessageFactory {
 				return new DesiredLinearState(defs);
 			case DesiredThrottle.ID_STATIC:
 				return new DesiredThrottle(defs);
+			case PeekDesiredPath.ID_STATIC:
+				return new PeekDesiredPath(defs);
 			case Goto.ID_STATIC:
 				return new Goto(defs);
 			case PopUp.ID_STATIC:
@@ -468,6 +472,8 @@ public class MessageFactory {
 				return new Alignment(defs);
 			case StationKeepingExtended.ID_STATIC:
 				return new StationKeepingExtended(defs);
+			case PeekManeuver.ID_STATIC:
+				return new PeekManeuver(defs);
 			case Magnetometer.ID_STATIC:
 				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
@@ -558,6 +564,8 @@ public class MessageFactory {
 				return new MapPoint(defs);
 			case CcuEvent.ID_STATIC:
 				return new CcuEvent(defs);
+			case AisStaticInfo.ID_STATIC:
+				return new AisStaticInfo(defs);
 			case VehicleLinks.ID_STATIC:
 				return new VehicleLinks(defs);
 			case TrexObservation.ID_STATIC:
@@ -676,10 +684,28 @@ public class MessageFactory {
 				return new SadcReadings(defs);
 			case DmsDetection.ID_STATIC:
 				return new DmsDetection(defs);
+			case CompassHeading.ID_STATIC:
+				return new CompassHeading(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
-			case HomePosition.ID_STATIC:
-				return new HomePosition(defs);
+			case CurrentVelocity.ID_STATIC:
+				return new CurrentVelocity(defs);
+			case EstimatedFreq.ID_STATIC:
+				return new EstimatedFreq(defs);
+			case PowerSettings.ID_STATIC:
+				return new PowerSettings(defs);
+			case VesselWind.ID_STATIC:
+				return new VesselWind(defs);
+			case RelativeWind.ID_STATIC:
+				return new RelativeWind(defs);
+			case AcousticBackscatter.ID_STATIC:
+				return new AcousticBackscatter(defs);
+			case Correlation.ID_STATIC:
+				return new Correlation(defs);
+			case CurrentProfileCell.ID_STATIC:
+				return new CurrentProfileCell(defs);
+			case CurrentProfile.ID_STATIC:
+				return new CurrentProfile(defs);
 			default:
 				return new IMCMessage(defs);
 		}

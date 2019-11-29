@@ -84,14 +84,14 @@ public class NavigationData extends IMCMessage {
 		return m;
 	}
 
-	public NavigationData(float bias_psi, float bias_r, float cog, float cyaw, float lbl_rej_level, float gps_rej_level, float custom_x, float custom_y, float custom_z) {
+	public NavigationData(float bias_psi, float bias_r, float cog, float cyaw, float gps_rej_level, float lbl_rej_level, float custom_x, float custom_y, float custom_z) {
 		super(ID_STATIC);
 		setBiasPsi(bias_psi);
 		setBiasR(bias_r);
 		setCog(cog);
 		setCyaw(cyaw);
-		setLblRejLevel(lbl_rej_level);
 		setGpsRejLevel(gps_rej_level);
+		setLblRejLevel(lbl_rej_level);
 		setCustomX(custom_x);
 		setCustomY(custom_y);
 		setCustomZ(custom_z);
@@ -160,30 +160,30 @@ public class NavigationData extends IMCMessage {
 	/**
 	 *  @return GPS Rejection Filter Level - fp32_t
 	 */
-	public double getLblRejLevel() {
-		return getDouble("lbl_rej_level");
+	public double getGpsRejLevel() {
+		return getDouble("gps_rej_level");
 	}
 
 	/**
-	 *  @param lbl_rej_level GPS Rejection Filter Level
+	 *  @param gps_rej_level GPS Rejection Filter Level
 	 */
-	public NavigationData setLblRejLevel(double lbl_rej_level) {
-		values.put("lbl_rej_level", lbl_rej_level);
+	public NavigationData setGpsRejLevel(double gps_rej_level) {
+		values.put("gps_rej_level", gps_rej_level);
 		return this;
 	}
 
 	/**
 	 *  @return LBL Rejection Filter Level - fp32_t
 	 */
-	public double getGpsRejLevel() {
-		return getDouble("gps_rej_level");
+	public double getLblRejLevel() {
+		return getDouble("lbl_rej_level");
 	}
 
 	/**
-	 *  @param gps_rej_level LBL Rejection Filter Level
+	 *  @param lbl_rej_level LBL Rejection Filter Level
 	 */
-	public NavigationData setGpsRejLevel(double gps_rej_level) {
-		values.put("gps_rej_level", gps_rej_level);
+	public NavigationData setLblRejLevel(double lbl_rej_level) {
+		values.put("lbl_rej_level", lbl_rej_level);
 		return this;
 	}
 

@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "9c3b29617fd44e858e16024c70a3bab9d825eec1";
-	public static final String IMC_BRANCH = "2019-09-27 9c3b296 (HEAD -> master, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Fri Sep 27 16:35:01 WEST 2019, Added Squirtle to IMC addresses.";
+	public static final String IMC_SHA = "ec33f7957e6101370aa9f49f34a9306630a35fd6";
+	public static final String IMC_BRANCH = "2019-11-29 ec33f79 (HEAD -> AutoNaut, origin/AutoNaut)";
+	public static final String IMC_COMMIT = "Renan Maidana (renanmaidana@gmail.com), Fri Nov 29 18:42:39 CET 2019, Added ADCP messages for L3";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -60,9 +60,10 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-xplore-5", 34);
 		IMC_ADDRESSES.put("lauv-nemo-1", 35);
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
+		IMC_ADDRESSES.put("lauv-harald", 8205);
+		IMC_ADDRESSES.put("lauv-fridtjof", 526);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
-		IMC_ADDRESSES.put("squirtle", 1027);
 		IMC_ADDRESSES.put("swordfish", 2049);
 		IMC_ADDRESSES.put("caravela", 2050);
 		IMC_ADDRESSES.put("hermes", 2241);
@@ -121,7 +122,6 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("turbot", 8192);
 		IMC_ADDRESSES.put("sparus2", 8193);
 		IMC_ADDRESSES.put("eqe", 8194);
-		IMC_ADDRESSES.put("lauv-harald", 8205);
 		IMC_ADDRESSES.put("lrauv-sim", 8960);
 		IMC_ADDRESSES.put("buv-petinga-1", 9216);
 		IMC_ADDRESSES.put("ntnu-hexa-testbed", 11264);
@@ -191,10 +191,9 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("piccolo-gs1", 32832);
 		IMC_ADDRESSES.put("piccolo-gs2", 32833);
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
-		IMC_ADDRESSES.put("ais-1", 32880);
-		IMC_ADDRESSES.put("ais-2", 32881);
-		IMC_ADDRESSES.put("bridgebox-1", 32897);
-		IMC_ADDRESSES.put("bridgebox-2", 32898);
+		IMC_ADDRESSES.put("manta-ntnu-1", 32880);
+		IMC_ADDRESSES.put("ais-1", 32881);
+		IMC_ADDRESSES.put("ais-2", 32882);
 		IMC_ADDRESSES.put("spot-01", 33793);
 		IMC_ADDRESSES.put("spot-02", 33794);
 		IMC_ADDRESSES.put("spot-03", 33795);
@@ -230,8 +229,18 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("wavy-0", 34048);
 		IMC_ADDRESSES.put("wavy-1", 34049);
 		IMC_ADDRESSES.put("wavy-2", 34050);
+		IMC_ADDRESSES.put("ntnu-jetyak", 34817);
+		IMC_ADDRESSES.put("ntnu-remus", 34818);
+		IMC_ADDRESSES.put("ntnu-autonaut", 34819);
+		IMC_ADDRESSES.put("ntnu-autonaut-L3", 34820);
+		IMC_ADDRESSES.put("dell-5420", 34821);
+		IMC_ADDRESSES.put("ffi-hugin", 35073);
 		IMC_ADDRESSES.put("ntnu-nest-01", 36865);
 		IMC_ADDRESSES.put("ntnu-nest-02", 36866);
+		IMC_ADDRESSES.put("lauv-virtual-1", 43521);
+		IMC_ADDRESSES.put("asv-obstacle-1", 43522);
+		IMC_ADDRESSES.put("asv-obstacle-2", 43523);
+		IMC_ADDRESSES.put("asv-obstacle-3", 43524);
 		IMC_ADDRESSES.put("manta-sabuvis", 38145);
 		IMC_ADDRESSES.put("broadcast", 65520);
 		IMC_ADDRESSES.put("null", 65535);

@@ -221,6 +221,7 @@
     <unit abbrev="Enumerated" name="Enumeration of integer values"/>
     <unit abbrev="List" name="Comma separated list of values"/>
     <unit abbrev="Bitfield" name="Bit field"/>
+    <unit abbrev="W" name="Watts"/>
     <unit abbrev="TupleList" name="List of key/value tuples">
       <description>
         This unit is a list of label/value tuples and is only valid in
@@ -2910,6 +2911,7 @@
         Wind turbulence intensity.
       </description>
     </field>
+
   </message>
 
   <message id="272" name="Relative Humidity" abbrev="RelativeHumidity" source="vehicle" flags="periodic">
@@ -3997,6 +3999,24 @@
     </field>
   </message>
 
+  <!--
+  <message id="317" name="Set Rudder Position" abbrev="SetRudderPosition" source="vehicle">
+    <description>
+      Actuate directly on a rudder.
+    </description>
+    <field name="Rudder Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the destination rudder.
+      </description>
+    </field>
+    <field name="Rudder Value" abbrev="value" type="fp32_t" min="-1" max="1">
+      <description>
+        Rudder magnitude.
+      </description>
+    </field>
+  </message>
+  -->
+
   <!-- Navigation -->
   <message id="350" name="Estimated State" abbrev="EstimatedState" source="vehicle" flags="periodic">
     <description>
@@ -4265,12 +4285,12 @@
         Continuous psi Euler angle (without normalizations).
       </description>
     </field>
-    <field name="GPS Rejection Filter Level" abbrev="lbl_rej_level" type="fp32_t">
+    <field name="GPS Rejection Filter Level" abbrev="gps_rej_level" type="fp32_t">
       <description>
         GPS rejection filter level.
       </description>
     </field>
-    <field name="LBL Rejection Filter Level" abbrev="gps_rej_level" type="fp32_t">
+    <field name="LBL Rejection Filter Level" abbrev="lbl_rej_level" type="fp32_t">
       <description>
         LBL rejection filter level.
       </description>
@@ -4548,6 +4568,79 @@
     <field name="Sideslip angle" abbrev="ssa" type="fp32_t" unit="rad">
       <description>
         Sideslip angle.
+      </description>
+    </field>
+  </message>
+  
+   <message id="364" name="Obstacle State" abbrev="ObstacleState" source="vehicle" flags="periodic">
+    <description>
+      This message presents the estimated state of a obstacle 
+      which will be sent to the target vehicle.
+
+      Obstacle is a complete description of the system
+      in terms of parameters such as position, orientation and
+      velocities at a particular moment in time.
+      </description>
+    <field name="MMSI" abbrev="mmsi" type="uint32_t">
+      <description>
+       MMSI Identification number of the vessel received from AIS.
+      </description>
+    </field>
+    <field name="Longitude (WGS-84)" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude.
+      </description>
+    </field>
+    <field name="Latitude (WGS-84)" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude.
+      </description>
+    </field>
+    <field name="Offset north" abbrev="x" type="fp32_t" unit="m">
+      <description>
+        The North offset of the North/East/Down field with respect to
+        LLH.
+      </description>
+    </field>
+    <field name="Offset east" abbrev="y" type="fp32_t" unit="m">
+      <description>
+        The East offset of the North/East/Down field with respect to
+        LLH.
+      </description>
+    </field>
+    <field name="Rotation over z axis" abbrev="psi" type="fp32_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        The psi Euler angle from the vehicle's attitude.
+      </description>
+    </field>
+    <field name="Ground Velocity X (North)" abbrev="U" type="fp32_t" unit="m/s">
+      <description>
+        Ground Velocity xx axis velocity component.
+      </description>
+    </field>
+    <field name="Ground Velocity Y (East)" abbrev="V" type="fp32_t" unit="m/s">
+      <description>
+        Ground Velocity yy axis velocity component.
+      </description>
+    </field>
+   <field name="Size A Lenght" abbrev="a" type="fp32_t" unit="m">
+      <description>
+        Size of the vehicle view from AIS(length = A + B)
+      </description>
+    </field>
+    <field name="Size B Length" abbrev="b" type="fp32_t" unit="m">
+      <description>
+        Size of the vehicle view from AIS(length = A + B)
+      </description>
+    </field>
+    <field name="Size C Width" abbrev="c" type="fp32_t" unit="m">
+      <description>
+        Size of the vehicle view from AIS (width = C + D)
+      </description>
+    </field>
+    <field name="Size D Width" abbrev="d" type="fp32_t" unit="m">
+      <description>
+        Size of the vehicle view from AIS (width = C + D)
       </description>
     </field>
   </message>
@@ -5264,6 +5357,17 @@
     </field>
   </message>
 
+  <message id="420" name="Peeked DesiredPath" abbrev="PeekDesiredPath">
+    <description>
+     A peek into the upcoming DesiredPath, to allow better decisions when completing maneuvers
+    </description>
+    <field name="DesiredPath" abbrev="dpath" type="message" message-type="DesiredPath">
+      <description>
+        The upcoming DesiredPath.
+      </description>
+    </field>
+  </message>
+
   <!-- Maneuvering -->
   <message id="450" name="Goto Maneuver" abbrev="Goto" source="ccu">
     <description>
@@ -5837,6 +5941,29 @@
     </field>
     <field name="Speed Units" abbrev="speed_units" type="uint8_t" unit="Enumerated" enum-def="SpeedUnits">
       <description>Indicates the units used for the speed value.</description>
+    </field>
+    <field name="PopUp Period" abbrev="popup_period" type="uint16_t" unit="s">
+      <description>
+        The period at which the vehicle will popup to report its position.
+        Only used if flag KEEP_SAFE is on.
+      </description>
+    </field>
+    <field name="PopUp Duration" abbrev="popup_duration" type="uint16_t" unit="s">
+      <description>
+        The duration of the station keeping at surface level when it pops up.
+        Only used if flag KEEP_SAFE is on.
+      </description>
+    </field>
+    <field name="Flags" abbrev="flags" prefix="FLG" type="uint8_t" unit="Bitfield">
+      <description>
+        Flags of the maneuver.
+      </description>
+      <value id="0x01" abbrev="KEEP_SAFE" name="Keep safe behaviour">
+        <description>
+          If this flag is set, the vehicle will hold position underwater, loitering at z reference.
+          It will popup periodically to report position. When it pops up, it will stay at surface in "normal" station keeping behaviour for a certain time (popup_duration).
+        </description>
+      </value>
     </field>
     <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
       <description>
@@ -7752,6 +7879,17 @@
     </field>
   </message>
 
+  <message id="497" name="Peeked Maneuver" abbrev="PeekManeuver">
+    <description>
+     A peek into the upcoming maneuver, to allow better decisions when completing maneuvers
+    </description>
+    <field name="Maneuver" abbrev="man" type="message" message-type="PlanManeuver">
+      <description>
+        The upcoming maneuver.
+      </description>
+    </field>
+  </message>
+
   <message id="499" name="Magnetometer Maneuver" abbrev="Magnetometer" source="ccu">
     <description>
       Magnetometer calibration maneuver (i.e: one square pattern
@@ -8521,7 +8659,7 @@
       <value id="102" abbrev="ERROR" name="Error trying to send sms"/>
     </field>
     <field name="Information" abbrev="info" type="plaintext">
-      <description> Error description.</description>
+    <description> Error description.</description>
     </field>
   </message>
   
@@ -8557,8 +8695,8 @@
     <value id="1" name="Disarmed" abbrev="DISARMED"/>
   </field>
   </message>
-  
-   <message id="521" name="TCP Transmission Request" abbrev="TCPRequest">
+
+  <message id="521" name="TCP Transmission Request" abbrev="TCPRequest">
     <description>
       Request data to be sent over a TCP connection
     </description>
@@ -9431,7 +9569,7 @@
     </field>
   </message>
 
-  <message id="601" name="Remote Sensor Info" abbrev="RemoteSensorInfo" source="ccu">
+  <message id="601" name="Remote Sensor Info" abbrev="RemoteSensorInfo" source="vehicle">
     <description>
       Whenever the CUCS receives a message from one of the existing sensors (through SMS, ZigBee, Acoustic Comms, ...) it disseminates that info recurring to this message.
     </description>
@@ -9447,6 +9585,8 @@
     <field name="Heading" abbrev="heading" type="fp32_t" unit="rad"/>
     <field name="Custom Data" abbrev="data" type="plaintext" unit="TupleList"/>
   </message>
+
+
 
   <!-- messages used to send maps to the Android Command and Control Unit (ACCU) -->
   <message id="602" name="Map" abbrev="Map" source="ccu">
@@ -9528,6 +9668,29 @@
     <field name="Identifier" abbrev="id" type="plaintext"/>
     <field name="Additional Data" abbrev="arg" type="message"/>
   </message>
+
+
+  <message id="607" name="AIS Static Info" abbrev="AisStaticInfo" source="ccu">
+    <description>
+      The CUCS receives a AIS message containing static informations that info composes to this message.
+    </description>
+    <field name="Id" abbrev="id" type="plaintext">
+      <description>An unique string that identifies the sensor. Used mostly for logging/presentation.</description>
+    </field>
+    <field name="Callsign" abbrev="callsign" type="plaintext"/>
+    <field name="Name" abbrev="name" type="plaintext"/>
+    <field name="Type and Cargo" abbrev="type_and_cargo" type="uint8_t"/>
+    <field name="Size A Length" abbrev="a" type="fp32_t" unit="m">
+      <description>
+        Size of the vehicle view from AIS(length = A + B, width = C + D)
+      </description>
+    </field>
+    <field name="Size B Length" abbrev="b" type="fp32_t" unit="m"/>
+    <field name="Size C Width" abbrev="c" type="fp32_t" unit="m"/>
+    <field name="Size D Width" abbrev="d" type="fp32_t" unit="m"/>
+  </message>
+
+
 
   <!-- Autonomy -->
   <message id="650" name="Vehicle Links" abbrev="VehicleLinks" source="vehicle">
@@ -10723,49 +10886,283 @@
     <field name="Channel 16" abbrev="ch16" type="fp32_t"/>
   </message>
   
+  <message id="909" name="Compass Heading" abbrev="CompassHeading" source="vehicle" flags="periodic">
+    <description>
+      Heading from magnetometer.
+    </description>
+    <field name="Device Time" abbrev="time" type="fp64_t" unit="s">
+      <description>
+        The device time.
+      </description>
+    </field>
+    <field name="Angle" abbrev="ang" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        Heading angle.
+      </description>
+    </field>
+  </message>
+
   <message id="2006" name="Total Magnetic Field Intensity" abbrev="TotalMagIntensity" source="vehicle">
     <field name="Value" abbrev="value" type="fp64_t">
       <description>Total Magnetic Field Intensity (TMI)</description>
     </field>
   </message>
 
-   <message id="909" name="Home Position" abbrev="HomePosition" source="vehicle,ccu">
+  <message id="910" name="Power" abbrev="Power" source="vehicle" flags="periodic">
+    <field name="Value" abbrev="value" type="fp64_t" unit="W">
+      <description>
+        Produced or Consumed Power.
+      </description>
+    </field>
+  </message>
+
+  <message id="911" name="Estimated Wave Frequency" abbrev="EstimatedFreq" source="vehicle" flags="periodic">
+    <field name="Value" abbrev="value" type="fp64_t" unit="rad/s">
+      <description>
+        Wave Frequency Estimated from Heave Acceleration (IMU).
+      </description>
+    </field>
+  </message>
+
+  <message id="912" name="AutoNaut Power Settings" abbrev="PowerSettings" source="vehicle,ccu" flags="periodic">
+    <field name="Level2" abbrev="l2" type="int8_t">
+      <description>
+        L2 relay: 0=ON, 1=OFF, 2=REBOOT.
+      </description>
+    </field>
+    <field name="Level3" abbrev="l3" type="int8_t">
+      <description>
+        L3 relay: 0=ON, 1=OFF, 2=REBOOT.
+      </description>
+    </field>
+    <field name="Iridium" abbrev="iridium" type="int8_t">
+      <description>
+        Iridium relay: 0=ON, 1=OFF, 2=REBOOT.
+      </description>
+    </field>
+    <field name="Modem" abbrev="modem" type="int8_t">
+      <description>
+        4G/LTE Modem/SenTiBoard: 0=ON, 1=OFF, 2=REBOOT.
+      </description>
+    </field>
+    <field name="Pumps" abbrev="pumps" type="int8_t">
+      <description>
+        Pumps relay: 0=ON, 1=OFF, 2=REBOOT.
+      </description>
+    </field>
+    <field name="VHF" abbrev="vhf" type="int8_t">
+      <description>
+        OWL VHF: 0=ON, 1=OFF, 2=REBOOT.
+      </description>
+    </field>
+  </message>
+
+  <message id="913" name="Vessel Wind" abbrev="VesselWind" source="vehicle">
     <description>
-      Vehicle Home Position.
+      Measurement of wind speed and angle, in relation to the vessel’s bow/centerline.
     </description>
-    <field name="Action on the vehicle home position" abbrev="op" type="uint8_t" unit="Enumerated" prefix="OP">
+    <field name="Angle" abbrev="angle" type="fp32_t" unit="°">
       <description>
-        Action on the vehicle home
-      </description>
-      <value id="1" name="Set" abbrev="SET"/>
-      <value id="2" name="Report" abbrev="REPORT"/>
-    </field>
-    <field name="Latitude (WGS-84)" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
-      <description>
-        WGS-84 Latitude.
+        Angle of the measured wind speed, 0.0 to 359.9 degrees, in relation to the vessel’s bow/centerline, to the nearest 0.1 degree.
       </description>
     </field>
-    <field name="Longitude (WGS-84)" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+    <field name="Reference" abbrev="reference" type="plaintext">
       <description>
-        WGS-84 Longitude.
+        Reference for the measurement (R=Relative, T=Theoretical).
       </description>
     </field>
-    <field name="Height (WGS-84)" abbrev="height" type="fp32_t" unit="m">
+    <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
       <description>
-        Height above the WGS-84 ellipsoid.
+        The value of the wind speed as measured by the sensor.
       </description>
     </field>
-    <field name="Depth" abbrev="depth" type="fp32_t" unit="m">
+  </message>
+
+  <message id="914" name="Relative Wind" abbrev="RelativeWind" source="vehicle">
+    <description>
+      Measurement of relative wind speed and angle.
+    </description>
+    <field name="Angle" abbrev="angle" type="fp32_t" unit="°">
       <description>
-        Depth, in meters. To be used by underwater vehicles. Negative
-        values denote invalid estimates.
+        Angle of the measured wind speed, 0.0 to 180 degrees, left/right of the vessel’s heading, to the nearest 0.1 degree.
       </description>
     </field>
-    <field name="Altitude" abbrev="alt" type="fp32_t" unit="m">
+    <field name="Direction" abbrev="direction" type="plaintext">
       <description>
-        Altitude, in meters. Negative values denote invalid estimates.
+        Direction for the measurement (L=Left, R=Right).
       </description>
     </field>
-   </message>
+    <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
+      <description>
+        The value of the wind speed as measured by the sensor.
+      </description>
+    </field>
+
+  </message>
+
+       <message id="910" name="Current Velocity" abbrev="CurrentVelocity" source="vehicle" flags="periodic" category="Sensors">
+    <description>
+      Current velocity at a given distance below the vehicle.
+    </description>
+    <field name="X" abbrev="x" type="fp32_t" unit="m/s">
+      <description>
+        X velocity component
+      </description>
+    </field>
+    <field name="Y" abbrev="y" type="fp32_t" unit="m/s">
+    <description>
+      Y velocity component
+    </description>
+    </field>
+    <field name="Z1" abbrev="z1" type="fp32_t" unit="m/s">
+      <description>
+        Z1 velocity component
+      </description>
+    </field>
+    <field name="Z2" abbrev="z2" type="fp32_t" unit="m/s">
+    <description>
+      Z2 velocity component
+    </description>
+    </field>
+  </message>
+
+  <message id="1011" name="Acoustic Backscatter" abbrev="AcousticBackscatter" source="vehicle" flags="periodic">
+    <description>
+      Amplitude of the acoustic backscatter for each beam. 
+    </description>
+    <field name="Beam 1" abbrev="beam1" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 1
+    </description>
+    </field>
+    <field name="Beam 2" abbrev="beam2" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 2
+      </description>
+    </field>
+    <field name="Beam 3" abbrev="beam3" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 3
+      </description>
+    </field>
+    <field name="Beam 4" abbrev="beam4" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 4
+      </description>
+    </field>
+  </message>
+
+  <message id="1012" name="Correlation" abbrev="Correlation" source="vehicle" flags="periodic" >
+    <description>
+      Correlation of a given beam mesurment relative to the other beam measurement
+    </description>
+    <field name="Beam 1" abbrev="beam1" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam mesurment relative to the other beam measurements. 
+      </description>
+    </field>
+    <field name="Beam 2" abbrev="beam2" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam mesurment relative to the other beam measurements. 
+      </description>
+    </field>
+    <field name="Beam 3" abbrev="beam3" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam mesurment relative to the other beam measurements. 
+      </description>
+    </field>
+    <field name="Beam 4" abbrev="beam4" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam mesurment relative to the other beam measurements. 
+      </description>
+   </field>
+  </message>
+
+  <message id="1014" name="Current Profile Cell" abbrev="CurrentProfileCell" source="vehicle" flags="periodic">
+    <description>
+      Raw Current measurement at CellPosition along the Z-axis in the ADCP sensor frame.
+    </description>
+    <field name="Cell Position" abbrev="CellPosition" unit="fp32_t" type="uint8_t" prefix="conf">
+      <description>
+        Distance of each measurment cell along the Z-axis in the sensor frame.
+      </description>
+      <value id="0x01" abbrev="tbd" name="tbd"/>
+      <value id="0x02" abbrev="tbd1" name="tbd1"/>
+      <value id="0x04" abbrev="tbd2" name="tbd2"/>
+      <value id="0x08" abbrev="tbd3" name="tbd3"/>
+    </field>
+    <field name="Vel X" abbrev="x" type="fp32_t" unit="m/s">
+      <description>
+        X velocity component
+      </description>
+    </field>
+    <field name="Vel Y" abbrev="y" type="fp32_t" unit="m/s">
+      <description>
+        Y velocity component
+      </description>
+    </field>
+    <field name="Vel Z1" abbrev="z1" type="fp32_t" unit="m/s">
+      <description>
+        Z1 velocity component
+      </description>
+    </field>
+    <field name="Vel Z2" abbrev="z2" type="fp32_t" unit="m/s">
+      <description>
+        Z2 velocity component
+      </description>
+    </field>
+    <field name="Amp 0" abbrev="amp0" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 0
+      </description>
+    </field>
+    <field name="Amp 1" abbrev="amp1" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 1
+      </description>
+    </field>
+    <field name="Amp 2" abbrev="amp2" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 2
+      </description>
+    </field>
+    <field name="Amp 3" abbrev="amp3" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 3
+      </description>
+    </field>
+    <field name="Cor 0" abbrev="cor0" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam measurement relative to the other beam measurements.
+      </description>
+    </field>
+    <field name="Cor 1" abbrev="cor1" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam measurement relative to the other beam measurements.
+      </description>
+    </field>
+    <field name="Cor 2" abbrev="cor2" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam measurement relative to the other beam measurements.
+      </description>
+    </field>
+    <field name="Cor 3" abbrev="cor3" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Correlation of a given beam measurement relative to the other beam measurements.
+      </description>
+    </field>
+  </message>
+
+  <message id="1015" name="Current Profile" abbrev="CurrentProfile" source="vehicle" flags="periodic">
+    <description>
+      Raw Current Profile along the Z-axis of the sensor frame. Contains velocity of water
+      relative to the vehicle velocity represented in the sensor coordinate frame.
+    </description>
+    <field name="Current Profile" abbrev="CurrentProfile" type="message-list" message-type="CurrentProfileCell">
+      <description>
+        List of current profile measurement cells.
+      </description>
+    </field>
+  </message>
   
 </messages>

@@ -25,65 +25,79 @@
  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
  */
-package pt.lsts.imc.adapter;
+package pt.lsts.imc;
 
-import pt.lsts.imc.Abort;
-import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.LogBookEntry;
-import pt.lsts.imc.LogBookEntry.TYPE;
-import pt.lsts.imc.def.SystemType;
-import pt.lsts.imc.net.ConnectFilter;
-import pt.lsts.imc.net.IMCProtocol;
 
 /**
- * @author zp
- *
+ *  IMC Message Power (910)<br/>
  */
-public class ImcAdapter {
 
-	private IMCProtocol imc;
-	
-	public ImcAdapter(String systemName, int imcId, int bindPort, SystemType systemType) {
-		imc = new IMCProtocol(systemName, bindPort, imcId, systemType);
-		imc.setAutoConnect(ConnectFilter.CCUS_ONLY);//setConnectOnHeartBeat();
-		imc.register(this);
-	}
-	
-	public void dispatch(IMCMessage message) {
-		imc.sendToPeers(message);
-	}
-	
-	private void report(LogBookEntry.TYPE type, String message) {
-		LogBookEntry entry = new LogBookEntry();
-		entry.setType(type);
-		entry.setText(message);
-		entry.setHtime(System.currentTimeMillis()/1000.0);
-		dispatch(entry);
-	}
-	
-	public void inf(String text) {
-		report(TYPE.INFO, text);
-	}
-	
-	public void err(String text) {
-		report(TYPE.ERROR, text);		
-	}
-	
-	public void war(String text) {
-		report(TYPE.WARNING, text);
-	}
-	
-	public void debug(String text) {
-		report(TYPE.DEBUG, text);
+public class Power extends IMCMessage {
+
+	public static final int ID_STATIC = 910;
+
+	public Power() {
+		super(ID_STATIC);
 	}
 
-	public static void main(String[] args) throws Exception {
-		ImcAdapter adapter = new ImcAdapter("DummyVehicle", 0x8043, 7009, SystemType.UUV);
-		while (true) {
-			adapter.dispatch(new Abort());	
-			Thread.sleep(3000);
-		}	
+	public Power(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
+	public Power(IMCDefinition defs) {
+		super(defs, ID_STATIC);
+	}
+
+	public static Power create(Object... values) {
+		Power m = new Power();
+		for (int i = 0; i < values.length-1; i+= 2)
+			m.setValue(values[i].toString(), values[i+1]);
+		return m;
+	}
+
+	public static Power clone(IMCMessage msg) throws Exception {
+
+		Power m = new Power();
+		if (msg == null)
+			return m;
+		if(msg.definitions != m.definitions){
+			msg = msg.cloneMessage();
+			IMCUtil.updateMessage(msg, m.definitions);
+		}
+		else if (msg.getMgid()!=m.getMgid())
+			throw new Exception("Argument "+msg.getAbbrev()+" is incompatible with message "+m.getAbbrev());
+
+		m.getHeader().values.putAll(msg.getHeader().values);
+		m.values.putAll(msg.values);
+		return m;
+	}
+
+	public Power(double value) {
+		super(ID_STATIC);
+		setValue(value);
+	}
+
+	/**
+	 *  @return Value (w) - fp64_t
+	 */
+	public double getValue() {
+		return getDouble("value");
+	}
+
+	/**
+	 *  @param value Value (w)
+	 */
+	public Power setValue(double value) {
+		values.put("value", value);
+		return this;
+	}
+
 }
