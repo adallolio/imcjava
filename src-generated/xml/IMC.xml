@@ -5357,7 +5357,7 @@
     </field>
   </message>
 
-  <message id="420" name="Peeked DesiredPath" abbrev="PeekDesiredPath">
+  <message id="420" name="Peeked DesiredPath" abbrev="PeekDesiredPath" source="vehicle">
     <description>
      A peek into the upcoming DesiredPath, to allow better decisions when completing maneuvers
     </description>
@@ -7879,7 +7879,7 @@
     </field>
   </message>
 
-  <message id="497" name="Peeked Maneuver" abbrev="PeekManeuver">
+  <message id="497" name="Peeked Maneuver" abbrev="PeekManeuver" source="vehicle,ccu">
     <description>
      A peek into the upcoming maneuver, to allow better decisions when completing maneuvers
     </description>
@@ -9569,7 +9569,7 @@
     </field>
   </message>
 
-  <message id="601" name="Remote Sensor Info" abbrev="RemoteSensorInfo" source="vehicle">
+  <message id="601" name="Remote Sensor Info" abbrev="RemoteSensorInfo" source="ccu,vehicle">
     <description>
       Whenever the CUCS receives a message from one of the existing sensors (through SMS, ZigBee, Acoustic Comms, ...) it disseminates that info recurring to this message.
     </description>
@@ -11000,7 +11000,7 @@
 
   </message>
 
-       <message id="910" name="Current Velocity" abbrev="CurrentVelocity" source="vehicle" flags="periodic" category="Sensors">
+  <message id="915" name="Current Velocity" abbrev="CurrentVelocity" source="vehicle" flags="periodic">
     <description>
       Current velocity at a given distance below the vehicle.
     </description>
@@ -11082,14 +11082,10 @@
     <description>
       Raw Current measurement at CellPosition along the Z-axis in the ADCP sensor frame.
     </description>
-    <field name="Cell Position" abbrev="CellPosition" unit="fp32_t" type="uint8_t" prefix="conf">
+    <field name="Cell Position" abbrev="CellPosition" type="fp32_t" unit="m">
       <description>
         Distance of each measurment cell along the Z-axis in the sensor frame.
       </description>
-      <value id="0x01" abbrev="tbd" name="tbd"/>
-      <value id="0x02" abbrev="tbd1" name="tbd1"/>
-      <value id="0x04" abbrev="tbd2" name="tbd2"/>
-      <value id="0x08" abbrev="tbd3" name="tbd3"/>
     </field>
     <field name="Vel X" abbrev="x" type="fp32_t" unit="m/s">
       <description>
@@ -11111,6 +11107,7 @@
         Z2 velocity component
       </description>
     </field>
+
     <field name="Amp 0" abbrev="amp0" type="fp32_t" unit="dB">
       <description>
         Amplitude of returning ping for beam 0
@@ -11131,6 +11128,7 @@
         Amplitude of returning ping for beam 3
       </description>
     </field>
+
     <field name="Cor 0" abbrev="cor0" type="uint8_t" unit="%" max="100" min="0">
       <description>
         Correlation of a given beam measurement relative to the other beam measurements.
@@ -11158,7 +11156,7 @@
       Raw Current Profile along the Z-axis of the sensor frame. Contains velocity of water
       relative to the vehicle velocity represented in the sensor coordinate frame.
     </description>
-    <field name="Current Profile" abbrev="CurrentProfile" type="message-list" message-type="CurrentProfileCell">
+    <field name="Profile" abbrev="prof" type="message-list" message-type="CurrentProfileCell">
       <description>
         List of current profile measurement cells.
       </description>

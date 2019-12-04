@@ -688,8 +688,8 @@ public class MessageFactory {
 				return new CompassHeading(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
-			case CurrentVelocity.ID_STATIC:
-				return new CurrentVelocity(defs);
+			case Power.ID_STATIC:
+				return new Power(defs);
 			case EstimatedFreq.ID_STATIC:
 				return new EstimatedFreq(defs);
 			case PowerSettings.ID_STATIC:
@@ -698,6 +698,8 @@ public class MessageFactory {
 				return new VesselWind(defs);
 			case RelativeWind.ID_STATIC:
 				return new RelativeWind(defs);
+			case CurrentVelocity.ID_STATIC:
+				return new CurrentVelocity(defs);
 			case AcousticBackscatter.ID_STATIC:
 				return new AcousticBackscatter(defs);
 			case Correlation.ID_STATIC:

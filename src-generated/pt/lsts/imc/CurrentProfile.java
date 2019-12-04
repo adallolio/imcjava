@@ -82,18 +82,18 @@ public class CurrentProfile extends IMCMessage {
 		return m;
 	}
 
-	public CurrentProfile(java.util.Collection<CurrentProfileCell> CurrentProfile) {
+	public CurrentProfile(java.util.Collection<CurrentProfileCell> prof) {
 		super(ID_STATIC);
-		if (CurrentProfile != null)
-			setCurrentProfile(CurrentProfile);
+		if (prof != null)
+			setProf(prof);
 	}
 
 	/**
-	 *  @return Current Profile - message-list
+	 *  @return Profile - message-list
 	 */
-	public java.util.Vector<CurrentProfileCell> getCurrentProfile() {
+	public java.util.Vector<CurrentProfileCell> getProf() {
 		try {
-			return getMessageList("CurrentProfile", CurrentProfileCell.class);
+			return getMessageList("prof", CurrentProfileCell.class);
 		}
 		catch (Exception e) {
 			return null;
@@ -102,10 +102,10 @@ public class CurrentProfile extends IMCMessage {
 	}
 
 	/**
-	 *  @param CurrentProfile Current Profile
+	 *  @param prof Profile
 	 */
-	public CurrentProfile setCurrentProfile(java.util.Collection<CurrentProfileCell> CurrentProfile) {
-		values.put("CurrentProfile", CurrentProfile);
+	public CurrentProfile setProf(java.util.Collection<CurrentProfileCell> prof) {
+		values.put("prof", prof);
 		return this;
 	}
 

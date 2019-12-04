@@ -81,7 +81,7 @@ public class CurrentProfileCell extends IMCMessage {
 		return m;
 	}
 
-	public CurrentProfileCell(short CellPosition, float x, float y, float z1, float z2, float amp0, float amp1, float amp2, float amp3, short cor0, short cor1, short cor2, short cor3) {
+	public CurrentProfileCell(float CellPosition, float x, float y, float z1, float z2, float amp0, float amp1, float amp2, float amp3, short cor0, short cor1, short cor2, short cor3) {
 		super(ID_STATIC);
 		setCellPosition(CellPosition);
 		setX(x);
@@ -99,16 +99,16 @@ public class CurrentProfileCell extends IMCMessage {
 	}
 
 	/**
-	 *  @return Cell Position (fp32_t) - uint8_t
+	 *  @return Cell Position (m) - fp32_t
 	 */
-	public short getCellPosition() {
-		return (short) getInteger("CellPosition");
+	public double getCellPosition() {
+		return getDouble("CellPosition");
 	}
 
 	/**
-	 *  @param CellPosition Cell Position (fp32_t)
+	 *  @param CellPosition Cell Position (m)
 	 */
-	public CurrentProfileCell setCellPosition(short CellPosition) {
+	public CurrentProfileCell setCellPosition(double CellPosition) {
 		values.put("CellPosition", CellPosition);
 		return this;
 	}

@@ -31,13 +31,13 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Current Velocity (910)<br/>
+ *  IMC Message Current Velocity (915)<br/>
  *  Current velocity at a given distance below the vehicle.<br/>
  */
 
 public class CurrentVelocity extends IMCMessage {
 
-	public static final int ID_STATIC = 910;
+	public static final int ID_STATIC = 915;
 
 	public CurrentVelocity() {
 		super(ID_STATIC);
