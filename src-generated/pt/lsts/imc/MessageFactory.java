@@ -720,6 +720,8 @@ public class MessageFactory {
 				return new TBRSensor(defs);
 			case IridiumReport.ID_STATIC:
 				return new IridiumReport(defs);
+			case ScienceSensors.ID_STATIC:
+				return new ScienceSensors(defs);
 			case AisGpsFix.ID_STATIC:
 				return new AisGpsFix(defs);
 			default:
