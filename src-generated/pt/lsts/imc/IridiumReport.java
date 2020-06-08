@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Relative Wind (914)<br/>
- *  Measurement of relative wind speed and angle.<br/>
+ *  IMC Message Iridium State Reports (2009)<br/>
+ *  Frequency of Iridium State Reports.<br/>
  */
 
-public class RelativeWind extends IMCMessage {
+public class IridiumReport extends IMCMessage {
 
-	public static final int ID_STATIC = 914;
+	public static final int ID_STATIC = 2009;
 
-	public RelativeWind() {
+	public IridiumReport() {
 		super(ID_STATIC);
 	}
 
-	public RelativeWind(IMCMessage msg) {
+	public IridiumReport(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class RelativeWind extends IMCMessage {
 		}
 	}
 
-	public RelativeWind(IMCDefinition defs) {
+	public IridiumReport(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RelativeWind create(Object... values) {
-		RelativeWind m = new RelativeWind();
+	public static IridiumReport create(Object... values) {
+		IridiumReport m = new IridiumReport();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RelativeWind clone(IMCMessage msg) throws Exception {
+	public static IridiumReport clone(IMCMessage msg) throws Exception {
 
-		RelativeWind m = new RelativeWind();
+		IridiumReport m = new IridiumReport();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,39 +81,46 @@ public class RelativeWind extends IMCMessage {
 		return m;
 	}
 
-	public RelativeWind(float angle, float speed) {
+	public IridiumReport(long frequency, String info) {
 		super(ID_STATIC);
-		setAngle(angle);
-		setSpeed(speed);
+		setFrequency(frequency);
+		if (info != null)
+			setInfo(info);
 	}
 
 	/**
-	 *  @return Angle (°) - fp32_t
+	 *  @return Frequency (s) - uint32_t
 	 */
-	public double getAngle() {
-		return getDouble("angle");
+	public long getFrequency() {
+		return getLong("frequency");
 	}
 
 	/**
-	 *  @param angle Angle (°)
+	 *  @param frequency Frequency (s)
 	 */
-	public RelativeWind setAngle(double angle) {
-		values.put("angle", angle);
+	public IridiumReport setFrequency(long frequency) {
+		values.put("frequency", frequency);
 		return this;
 	}
 
 	/**
-	 *  @return Speed (m/s) - fp32_t
+	 *  @return Information (tuplelist) - plaintext
 	 */
-	public double getSpeed() {
-		return getDouble("speed");
+	public java.util.LinkedHashMap<String, String> getInfo() {
+		return getTupleList("info");
 	}
 
 	/**
-	 *  @param speed Speed (m/s)
+	 *  @param info Information (tuplelist)
 	 */
-	public RelativeWind setSpeed(double speed) {
-		values.put("speed", speed);
+	public IridiumReport setInfo(java.util.LinkedHashMap<String, ?> info) {
+		String val = encodeTupleList(info);
+		values.put("info", val);
+		return this;
+	}
+
+	public IridiumReport setInfo(String info) {
+		values.put("info", info);
 		return this;
 	}
 

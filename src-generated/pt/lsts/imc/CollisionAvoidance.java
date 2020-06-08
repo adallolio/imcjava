@@ -31,23 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Obstacle State (364)<br/>
- *  This message presents the estimated state of a obstacle<br/>
- *  which will be sent to the target vehicle.<br/>
- *  Obstacle is a complete description of the system<br/>
- *  in terms of parameters such as position, orientation and<br/>
- *  velocities at a particular moment in time.<br/>
+ *  IMC Message Collision Avoidance (916)<br/>
+ *  Envelope with CAS information.<br/>
  */
 
-public class ObstacleState extends IMCMessage {
+public class CollisionAvoidance extends IMCMessage {
 
-	public static final int ID_STATIC = 364;
+	public static final int ID_STATIC = 916;
 
-	public ObstacleState() {
+	public CollisionAvoidance() {
 		super(ID_STATIC);
 	}
 
-	public ObstacleState(IMCMessage msg) {
+	public CollisionAvoidance(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -57,20 +53,20 @@ public class ObstacleState extends IMCMessage {
 		}
 	}
 
-	public ObstacleState(IMCDefinition defs) {
+	public CollisionAvoidance(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ObstacleState create(Object... values) {
-		ObstacleState m = new ObstacleState();
+	public static CollisionAvoidance create(Object... values) {
+		CollisionAvoidance m = new CollisionAvoidance();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ObstacleState clone(IMCMessage msg) throws Exception {
+	public static CollisionAvoidance clone(IMCMessage msg) throws Exception {
 
-		ObstacleState m = new ObstacleState();
+		CollisionAvoidance m = new CollisionAvoidance();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -85,49 +81,33 @@ public class ObstacleState extends IMCMessage {
 		return m;
 	}
 
-	public ObstacleState(long mmsi, double lon, double lat, float x, float y, float psi, float U, float V, float a, float b, float c, float d) {
+	public CollisionAvoidance(float mmsi, double lat, double lon, float x, float y, float speed, float course, float dist, float length, float width, float o_vect) {
 		super(ID_STATIC);
 		setMmsi(mmsi);
-		setLon(lon);
 		setLat(lat);
+		setLon(lon);
 		setX(x);
 		setY(y);
-		setPsi(psi);
-		setU(U);
-		setV(V);
-		setA(a);
-		setB(b);
-		setC(c);
-		setD(d);
+		setSpeed(speed);
+		setCourse(course);
+		setDist(dist);
+		setLength(length);
+		setWidth(width);
+		setOVect(o_vect);
 	}
 
 	/**
-	 *  @return MMSI - uint32_t
+	 *  @return MMSI - fp32_t
 	 */
-	public long getMmsi() {
-		return getLong("mmsi");
+	public double getMmsi() {
+		return getDouble("mmsi");
 	}
 
 	/**
 	 *  @param mmsi MMSI
 	 */
-	public ObstacleState setMmsi(long mmsi) {
+	public CollisionAvoidance setMmsi(double mmsi) {
 		values.put("mmsi", mmsi);
-		return this;
-	}
-
-	/**
-	 *  @return Longitude (WGS-84) (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @param lon Longitude (WGS-84) (rad)
-	 */
-	public ObstacleState setLon(double lon) {
-		values.put("lon", lon);
 		return this;
 	}
 
@@ -141,8 +121,23 @@ public class ObstacleState extends IMCMessage {
 	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
-	public ObstacleState setLat(double lat) {
+	public CollisionAvoidance setLat(double lat) {
 		values.put("lat", lat);
+		return this;
+	}
+
+	/**
+	 *  @return Longitude (WGS-84) (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
+	 *  @param lon Longitude (WGS-84) (rad)
+	 */
+	public CollisionAvoidance setLon(double lon) {
+		values.put("lon", lon);
 		return this;
 	}
 
@@ -156,7 +151,7 @@ public class ObstacleState extends IMCMessage {
 	/**
 	 *  @param x Offset north (m)
 	 */
-	public ObstacleState setX(double x) {
+	public CollisionAvoidance setX(double x) {
 		values.put("x", x);
 		return this;
 	}
@@ -171,113 +166,98 @@ public class ObstacleState extends IMCMessage {
 	/**
 	 *  @param y Offset east (m)
 	 */
-	public ObstacleState setY(double y) {
+	public CollisionAvoidance setY(double y) {
 		values.put("y", y);
 		return this;
 	}
 
 	/**
-	 *  @return Rotation over z axis (rad) - fp32_t
+	 *  @return Speed (m/s) - fp32_t
 	 */
-	public double getPsi() {
-		return getDouble("psi");
+	public double getSpeed() {
+		return getDouble("speed");
 	}
 
 	/**
-	 *  @param psi Rotation over z axis (rad)
+	 *  @param speed Speed (m/s)
 	 */
-	public ObstacleState setPsi(double psi) {
-		values.put("psi", psi);
+	public CollisionAvoidance setSpeed(double speed) {
+		values.put("speed", speed);
 		return this;
 	}
 
 	/**
-	 *  @return Ground Velocity X (North) (m/s) - fp32_t
+	 *  @return Course (°) - fp32_t
 	 */
-	public double getU() {
-		return getDouble("U");
+	public double getCourse() {
+		return getDouble("course");
 	}
 
 	/**
-	 *  @param U Ground Velocity X (North) (m/s)
+	 *  @param course Course (°)
 	 */
-	public ObstacleState setU(double U) {
-		values.put("U", U);
+	public CollisionAvoidance setCourse(double course) {
+		values.put("course", course);
 		return this;
 	}
 
 	/**
-	 *  @return Ground Velocity Y (East) (m/s) - fp32_t
+	 *  @return Distance (m) - fp32_t
 	 */
-	public double getV() {
-		return getDouble("V");
+	public double getDist() {
+		return getDouble("dist");
 	}
 
 	/**
-	 *  @param V Ground Velocity Y (East) (m/s)
+	 *  @param dist Distance (m)
 	 */
-	public ObstacleState setV(double V) {
-		values.put("V", V);
+	public CollisionAvoidance setDist(double dist) {
+		values.put("dist", dist);
 		return this;
 	}
 
 	/**
-	 *  @return Size A Lenght (m) - fp32_t
+	 *  @return Length (m) - fp32_t
 	 */
-	public double getA() {
-		return getDouble("a");
+	public double getLength() {
+		return getDouble("length");
 	}
 
 	/**
-	 *  @param a Size A Lenght (m)
+	 *  @param length Length (m)
 	 */
-	public ObstacleState setA(double a) {
-		values.put("a", a);
+	public CollisionAvoidance setLength(double length) {
+		values.put("length", length);
 		return this;
 	}
 
 	/**
-	 *  @return Size B Length (m) - fp32_t
+	 *  @return Width (m) - fp32_t
 	 */
-	public double getB() {
-		return getDouble("b");
+	public double getWidth() {
+		return getDouble("width");
 	}
 
 	/**
-	 *  @param b Size B Length (m)
+	 *  @param width Width (m)
 	 */
-	public ObstacleState setB(double b) {
-		values.put("b", b);
+	public CollisionAvoidance setWidth(double width) {
+		values.put("width", width);
 		return this;
 	}
 
 	/**
-	 *  @return Size C Width (m) - fp32_t
+	 *  @return Obstacle vector size - fp32_t
 	 */
-	public double getC() {
-		return getDouble("c");
+	public double getOVect() {
+		return getDouble("o_vect");
 	}
 
 	/**
-	 *  @param c Size C Width (m)
+	 *  @param o_vect Obstacle vector size
 	 */
-	public ObstacleState setC(double c) {
-		values.put("c", c);
-		return this;
-	}
-
-	/**
-	 *  @return Size D Width (m) - fp32_t
-	 */
-	public double getD() {
-		return getDouble("d");
-	}
-
-	/**
-	 *  @param d Size D Width (m)
-	 */
-	public ObstacleState setD(double d) {
-		values.put("d", d);
+	public CollisionAvoidance setOVect(double o_vect) {
+		values.put("o_vect", o_vect);
 		return this;
 	}
 

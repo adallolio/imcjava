@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Relative Wind (914)<br/>
- *  Measurement of relative wind speed and angle.<br/>
+ *  IMC Message Heave Displacement (918)<br/>
+ *  Contains heave measurement computed by GPS.<br/>
  */
 
-public class RelativeWind extends IMCMessage {
+public class Heave extends IMCMessage {
 
-	public static final int ID_STATIC = 914;
+	public static final int ID_STATIC = 918;
 
-	public RelativeWind() {
+	public Heave() {
 		super(ID_STATIC);
 	}
 
-	public RelativeWind(IMCMessage msg) {
+	public Heave(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class RelativeWind extends IMCMessage {
 		}
 	}
 
-	public RelativeWind(IMCDefinition defs) {
+	public Heave(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RelativeWind create(Object... values) {
-		RelativeWind m = new RelativeWind();
+	public static Heave create(Object... values) {
+		Heave m = new Heave();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RelativeWind clone(IMCMessage msg) throws Exception {
+	public static Heave clone(IMCMessage msg) throws Exception {
 
-		RelativeWind m = new RelativeWind();
+		Heave m = new Heave();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,39 +81,23 @@ public class RelativeWind extends IMCMessage {
 		return m;
 	}
 
-	public RelativeWind(float angle, float speed) {
+	public Heave(float value) {
 		super(ID_STATIC);
-		setAngle(angle);
-		setSpeed(speed);
+		setValue(value);
 	}
 
 	/**
-	 *  @return Angle (°) - fp32_t
+	 *  @return Heave (m) - fp32_t
 	 */
-	public double getAngle() {
-		return getDouble("angle");
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**
-	 *  @param angle Angle (°)
+	 *  @param value Heave (m)
 	 */
-	public RelativeWind setAngle(double angle) {
-		values.put("angle", angle);
-		return this;
-	}
-
-	/**
-	 *  @return Speed (m/s) - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  @param speed Speed (m/s)
-	 */
-	public RelativeWind setSpeed(double speed) {
-		values.put("speed", speed);
+	public Heave setValue(double value) {
+		values.put("value", value);
 		return this;
 	}
 

@@ -201,6 +201,7 @@
     <unit abbrev="ns" name="Nanosecond"/>
     <unit abbrev="S/m" name="Siemens per meter"/>
     <unit abbrev="kg" name="Kilogram"/>
+    <unit abbrev="kn" name="Knot"/>
     <unit abbrev="Nm" name="Newton meter"/>
     <unit abbrev="NTU" name="Nephelometric Turbidity Unit"/>
     <unit abbrev="N" name="Newton"/>
@@ -4572,79 +4573,6 @@
     </field>
   </message>
   
-   <message id="364" name="Obstacle State" abbrev="ObstacleState" source="vehicle" flags="periodic">
-    <description>
-      This message presents the estimated state of a obstacle 
-      which will be sent to the target vehicle.
-
-      Obstacle is a complete description of the system
-      in terms of parameters such as position, orientation and
-      velocities at a particular moment in time.
-      </description>
-    <field name="MMSI" abbrev="mmsi" type="uint32_t">
-      <description>
-       MMSI Identification number of the vessel received from AIS.
-      </description>
-    </field>
-    <field name="Longitude (WGS-84)" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
-      <description>
-        WGS-84 Longitude.
-      </description>
-    </field>
-    <field name="Latitude (WGS-84)" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
-      <description>
-        WGS-84 Latitude.
-      </description>
-    </field>
-    <field name="Offset north" abbrev="x" type="fp32_t" unit="m">
-      <description>
-        The North offset of the North/East/Down field with respect to
-        LLH.
-      </description>
-    </field>
-    <field name="Offset east" abbrev="y" type="fp32_t" unit="m">
-      <description>
-        The East offset of the North/East/Down field with respect to
-        LLH.
-      </description>
-    </field>
-    <field name="Rotation over z axis" abbrev="psi" type="fp32_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
-      <description>
-        The psi Euler angle from the vehicle's attitude.
-      </description>
-    </field>
-    <field name="Ground Velocity X (North)" abbrev="U" type="fp32_t" unit="m/s">
-      <description>
-        Ground Velocity xx axis velocity component.
-      </description>
-    </field>
-    <field name="Ground Velocity Y (East)" abbrev="V" type="fp32_t" unit="m/s">
-      <description>
-        Ground Velocity yy axis velocity component.
-      </description>
-    </field>
-   <field name="Size A Lenght" abbrev="a" type="fp32_t" unit="m">
-      <description>
-        Size of the vehicle view from AIS(length = A + B)
-      </description>
-    </field>
-    <field name="Size B Length" abbrev="b" type="fp32_t" unit="m">
-      <description>
-        Size of the vehicle view from AIS(length = A + B)
-      </description>
-    </field>
-    <field name="Size C Width" abbrev="c" type="fp32_t" unit="m">
-      <description>
-        Size of the vehicle view from AIS (width = C + D)
-      </description>
-    </field>
-    <field name="Size D Width" abbrev="d" type="fp32_t" unit="m">
-      <description>
-        Size of the vehicle view from AIS (width = C + D)
-      </description>
-    </field>
-  </message>
-
   <!-- Guidance -->
   <message id="400" name="Desired Heading" abbrev="DesiredHeading"  source="vehicle">
     <description>
@@ -4654,6 +4582,11 @@
       <description>
         The value of the desired heading angle, relative to true
         north, in radians.
+      </description>
+    </field>
+    <field name="Offset" abbrev="off" type="fp32_t" unit="°">
+      <description>
+        Course offset computed by sb_mpc.
       </description>
     </field>
   </message>
@@ -9586,6 +9519,43 @@
     <field name="Custom Data" abbrev="data" type="plaintext" unit="TupleList"/>
   </message>
 
+  <message id="607" name="AIS Info" abbrev="AisInfo" source="vehicle">
+    <description>
+      Message containing static or dynamic AIS data received onboard the vehicle.
+    </description>
+    <field name="Message Type" abbrev="msg_type" type="plaintext">
+      <description>
+        Integer indicating the message type: 1,2,3,5, ...
+      </description>
+    </field>
+    <field name="Class" abbrev="sensor_class" type="plaintext">
+      <description>
+        The class of a sensor tells the type of sensor originating this message. It will determine how the sensor is to be shown and (optionally) how the custom data (tuplelist) is to be interpreted.
+      </description>
+    </field>
+    <field name="MMSI" abbrev="mmsi" type="plaintext">
+      <description>
+        An unique string that identifies the sensor/vessel.
+      </description>
+    </field>
+    <field name="Callsign" abbrev="callsign" type="plaintext"/>
+    <field name="Name" abbrev="name" type="plaintext"/>
+    <field name="Navigation Status" abbrev="nav_status" type="uint8_t"/>
+    <field name="Type and Cargo" abbrev="type_and_cargo" type="uint8_t"/>
+    <field name="Latitude" abbrev="lat" type="fp64_t" unit="rad"/>
+    <field name="Longitude" abbrev="lon" type="fp64_t" unit="rad"/>
+    <field name="Course" abbrev="course" type="fp32_t" unit="deg"/>
+    <field name="Speed" abbrev="speed" type="fp32_t" unit="kn"/>
+    <field name="Size A Length" abbrev="a" type="fp32_t" unit="m">
+      <description>
+        Size of the vehicle (length = A + B, width = C + D)
+      </description>
+    </field>
+    <field name="Size B Length" abbrev="b" type="fp32_t" unit="m"/>
+    <field name="Size C Width" abbrev="c" type="fp32_t" unit="m"/>
+    <field name="Size D Width" abbrev="d" type="fp32_t" unit="m"/>
+    <field name="Draught" abbrev="draught" type="fp32_t" unit="m"/>
+  </message>
 
 
   <!-- messages used to send maps to the Android Command and Control Unit (ACCU) -->
@@ -9668,29 +9638,6 @@
     <field name="Identifier" abbrev="id" type="plaintext"/>
     <field name="Additional Data" abbrev="arg" type="message"/>
   </message>
-
-
-  <message id="607" name="AIS Static Info" abbrev="AisStaticInfo" source="ccu">
-    <description>
-      The CUCS receives a AIS message containing static informations that info composes to this message.
-    </description>
-    <field name="Id" abbrev="id" type="plaintext">
-      <description>An unique string that identifies the sensor. Used mostly for logging/presentation.</description>
-    </field>
-    <field name="Callsign" abbrev="callsign" type="plaintext"/>
-    <field name="Name" abbrev="name" type="plaintext"/>
-    <field name="Type and Cargo" abbrev="type_and_cargo" type="uint8_t"/>
-    <field name="Size A Length" abbrev="a" type="fp32_t" unit="m">
-      <description>
-        Size of the vehicle view from AIS(length = A + B, width = C + D)
-      </description>
-    </field>
-    <field name="Size B Length" abbrev="b" type="fp32_t" unit="m"/>
-    <field name="Size C Width" abbrev="c" type="fp32_t" unit="m"/>
-    <field name="Size D Width" abbrev="d" type="fp32_t" unit="m"/>
-  </message>
-
-
 
   <!-- Autonomy -->
   <message id="650" name="Vehicle Links" abbrev="VehicleLinks" source="vehicle">
@@ -10984,12 +10931,7 @@
     </description>
     <field name="Angle" abbrev="angle" type="fp32_t" unit="°">
       <description>
-        Angle of the measured wind speed, 0.0 to 180 degrees, left/right of the vessel’s heading, to the nearest 0.1 degree.
-      </description>
-    </field>
-    <field name="Direction" abbrev="direction" type="plaintext">
-      <description>
-        Direction for the measurement (L=Left, R=Right).
+        Angle of the measured wind speed, 0 to 360 degrees wrt the vessel’s line from stern to bow.
       </description>
     </field>
     <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
@@ -10997,7 +10939,22 @@
         The value of the wind speed as measured by the sensor.
       </description>
     </field>
+  </message>
 
+  <message id="919" name="Absolute Wind" abbrev="AbsoluteWind" source="vehicle">
+    <description>
+      Wind direction wrt North and wind speed.
+    </description>
+    <field name="Direction" abbrev="dir" type="fp32_t" unit="°">
+      <description>
+        Direction of the absolute wind.
+      </description>
+    </field>
+    <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
+      <description>
+        Absolute wind speed.
+      </description>
+    </field>
   </message>
 
   <message id="915" name="Current Velocity" abbrev="CurrentVelocity" source="vehicle" flags="periodic">
@@ -11023,6 +10980,91 @@
     <description>
       Z2 velocity component
     </description>
+    </field>
+  </message>
+
+  <message id="916" name="Collision Avoidance" abbrev="CollisionAvoidance" source="vehicle" flags="periodic">
+    <description>
+      Envelope with CAS information.
+    </description>
+    <field name="MMSI" abbrev="mmsi" type="fp32_t">
+      <description>
+        Obstacle ID.
+      </description>
+    </field>
+    <field name="Latitude (WGS-84)" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        Obstacle WGS-84 Latitude.
+      </description>
+    </field>
+    <field name="Longitude (WGS-84)" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        Obstacle WGS-84 Longitude.
+      </description>
+    </field>
+    <field name="Offset north" abbrev="x" type="fp32_t" unit="m">
+      <description>
+        The North offset of the North/East/Down field with respect to
+        own vessel.
+      </description>
+    </field>
+    <field name="Offset east" abbrev="y" type="fp32_t" unit="m">
+      <description>
+        The East offset of the North/East/Down field with respect to
+        own vessel.
+      </description>
+    </field>
+    <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
+      <description>
+        Obstacle SOG in m/s.
+      </description>
+    </field>
+    <field name="Course" abbrev="course" type="fp32_t" unit="°">
+      <description>
+        Obstacle COG in degrees.
+      </description>
+    </field>
+    <field name="Distance" abbrev="dist" type="fp32_t" unit="m">
+      <description>
+        Distance between obstacle and own vessel.
+      </description>
+    </field>
+    <field name="Length" abbrev="length" type="fp32_t" unit="m">
+      <description>
+        Obstacle length.
+      </description>
+    </field>
+    <field name="Width" abbrev="width" type="fp32_t" unit="m">
+      <description>
+        Obstacle width.
+      </description>
+    </field>
+    <field name="Obstacle vector size" abbrev="o_vect" type="fp32_t">
+      <description>
+        Size of obstacles vector.
+      </description>
+    </field>
+  </message>
+
+  <message id="917" name="Bathymetry Surroundings" abbrev="Surroundings" source="vehicle">
+    <description>
+      Contains locations with their depth/elevation as extracted from a digital map.
+    </description>
+    <field name="Locations" abbrev="locations" type="plaintext" unit="TupleList">
+      <description>
+        Example: "lat1=63.46869;lon1=10.37790;d1=-200"
+      </description>
+    </field>
+  </message>
+
+  <message id="918" name="Heave Displacement" abbrev="Heave" source="vehicle">
+    <description>
+      Contains heave measurement computed by GPS.
+    </description>
+    <field name="Heave" abbrev="value" type="fp32_t" unit="m">
+      <description>
+        Example: 2m.
+      </description>
     </field>
   </message>
 
@@ -11159,6 +11201,274 @@
     <field name="Profile" abbrev="prof" type="message-list" message-type="CurrentProfileCell">
       <description>
         List of current profile measurement cells.
+      </description>
+    </field>
+  </message>
+
+  <message id="2007" name="TBR Fish Tag" abbrev="TBRFishTag" source="vehicle,ccu">
+    <description>
+      TBR700RT received fish tag detection
+    </description>
+    <field name="TBR serial number" abbrev="serial_no" type="uint32_t">
+      <description>
+        Serial number of the TBR receiver
+      </description>
+    </field>
+    <field name="UNIX Timestamp" abbrev="unix_timestamp" type="uint32_t">
+      <description>
+        Time of tag detection as UNIX timestamp 
+      </description>
+    </field>
+    <field name="Millisecond" abbrev="millis" type="uint16_t" unit="ms">
+      <description>
+        Milliseconds
+      </description>
+    </field>
+    <field name="Transmit Protocol" abbrev="trans_protocol" type="uint8_t" unit="Enumerated" prefix="TBR">
+      <description>
+        Transmit Protocol of received transponder
+      </description>
+      <value id="1" name="R256" abbrev="R256"/>
+      <value id="2" name="R04K" abbrev="R04K"/>
+      <value id="4" name="R64K" abbrev="R64K"/>
+      <value id="5" name="R01M" abbrev="R01M"/>
+      <value id="6" name="S256" abbrev="S256"/>
+      <value id="3" name="S64K" abbrev="S64K"/>
+      <value id="7" name="HS256" abbrev="HS256"/>
+      <value id="8" name="DS256" abbrev="DS256"/>
+    </field>
+    <field name="Transmitter ID" abbrev="trans_id" type="uint32_t">
+      <description>
+        Transmitter ID
+      </description>
+    </field>
+    <field name="Transmitter Data" abbrev="trans_data" type="uint16_t">
+      <description>
+        Transmitter Data
+      </description>
+    </field>
+    <field name="Signal to Noise Ratio" abbrev="SNR" type="uint8_t" unit="dB">
+      <description>
+        Signal to Noise Ratio
+      </description>
+    </field>
+    <field name="Transmitter Detection Frequency" abbrev="trans_freq" type="uint8_t">
+      <description>
+        Transmitter Detection Frequency
+      </description>
+    </field>
+    <field name="Receiver Memory Address" abbrev="recv_mem_addr" type="uint16_t">
+      <description>
+        Receiver Memory Address (running entry number in flash memory)
+      </description>
+    </field>
+    <field name="Latitude (WGS-84)" abbrev="lat" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+     <description>
+        WGS-84 Latitude, stored from GPSfix.
+     </description>
+    </field>
+    <field name="Longitude (WGS-84)" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+     <description>
+       WGS-84 Longitude, stored from GPSfix.
+     </description>
+    </field>
+  </message>
+
+  <message id="2008" name="TBR Sensor Reading" abbrev="TBRSensor" source="vehicle,ccu">
+    <description>
+      TBR700RT internal sensor reading
+    </description>
+    <field name="TBR serial number" abbrev="serial_no" type="uint32_t">
+      <description>
+        Serial number of the TBR receiver
+      </description>
+    </field>
+    <field name="UNIX Timestamp" abbrev="unix_timestamp" type="uint32_t">
+      <description>
+        Time of sensor reading as UNIX timestamp 
+      </description>
+    </field>
+    <field name="Temperature" abbrev="temperature" type="fp32_t" unit="°C"/>
+    <field name="Average noise level" abbrev="avg_noise_level" type="uint8_t"/>
+    <field name="Peak noise level," abbrev="peak_noise_level" type="uint8_t"/>
+    <field name="Receiver listening frequency" abbrev="recv_listen_freq" type="uint8_t"/>
+    <field name="Receiver Memory Address" abbrev="recv_mem_addr" type="uint16_t">
+      <description>
+        Receiver Memory Address (running entry number in flash memory)
+      </description>
+    </field>
+  </message>
+
+  <message id="2009" name="Iridium State Reports" abbrev="IridiumReport" source="vehicle,ccu">
+    <description>
+      Frequency of Iridium State Reports.
+    </description>
+    <field name="Frequency" abbrev="frequency" type="uint32_t" unit="s">
+      <description>
+        Frequency in seconds of State Reports.
+      </description>
+    </field>
+    <field name="Information" abbrev="info" type="plaintext" unit="TupleList">
+      <description>
+        Information included in State Reports.
+        Default: UTC time, location, battery, cog, sog, gps satellites, produced power, consumed power, vehicle status, relays settings.
+      </description>
+    </field>
+  </message>
+
+  <message id="920" name="AIS GPS" abbrev="AisGpsFix" source="vehicle" flags="periodic">
+    <description>
+      Report of a GPS fix.
+    </description>
+    <field name="Validity" abbrev="validity" type="uint16_t" unit="Bitfield" prefix="GFV">
+      <description>
+        Validity of fields.
+      </description>
+      <value id="0x0001" name="Valid Date" abbrev="VALID_DATE">
+        <description>
+          Fields 'utc_year', 'utc_month' and 'utc_day' are valid.
+        </description>
+      </value>
+      <value id="0x0002" name="Valid Time" abbrev="VALID_TIME">
+        <description>
+          Field 'utc_time' is valid.
+        </description>
+      </value>
+      <value id="0x0004" name="Valid Position" abbrev="VALID_POS">
+        <description>
+          Fields 'lat', 'lon', 'altitude' and 'satellites' are valid.
+        </description>
+      </value>
+      <value id="0x0008" name="Valid Course Over Ground" abbrev="VALID_COG">
+        <description>
+          Field 'cog' is valid.
+        </description>
+      </value>
+      <value id="0x0010" name="Valid Speed Over Ground" abbrev="VALID_SOG">
+        <description>
+          Field 'sog' is valid.
+        </description>
+      </value>
+      <value id="0x0020" name="Valid Horizontal Accuracy Estimate" abbrev="VALID_HACC">
+        <description>
+          Field 'hacc' is valid.
+        </description>
+      </value>
+      <value id="0x0040" name="Valid Vertical Accuracy Estimate" abbrev="VALID_VACC">
+        <description>
+          Field 'vacc' is valid.
+        </description>
+      </value>
+      <value id="0x0080" name="Valid Horizontal Dilution of Precision" abbrev="VALID_HDOP">
+        <description>
+          Field 'hdop' is valid.
+        </description>
+      </value>
+      <value id="0x0100" name="Valid Vertical Dilution of Precision" abbrev="VALID_VDOP">
+        <description>
+          Field 'vdop' is valid.
+        </description>
+      </value>
+    </field>
+    <field name="Type" abbrev="type" type="uint8_t" unit="Enumerated" prefix="GFT">
+      <description>
+        Type of fix.
+      </description>
+      <value id="0x00" name="Stand Alone" abbrev="STANDALONE">
+        <description>
+          Stand alone solution.
+        </description>
+      </value>
+      <value id="0x01" name="Differential" abbrev="DIFFERENTIAL">
+        <description>
+          Differential solution.
+        </description>
+      </value>
+      <value id="0x02" name="Dead Reckoning" abbrev="DEAD_RECKONING">
+        <description>
+          Dead reckoning solution.
+        </description>
+      </value>
+      <value id="0x03" name="Manual Input" abbrev="MANUAL_INPUT">
+        <description>
+          Manual solution.
+        </description>
+      </value>
+      <value id="0x04" name="Simulation" abbrev="SIMULATION">
+        <description>
+          Simulated solution.
+        </description>
+      </value>
+    </field>
+    <field name="UTC Year" abbrev="utc_year" type="uint16_t">
+      <description>
+        UTC year.
+      </description>
+    </field>
+    <field name="UTC Month" abbrev="utc_month" type="uint8_t">
+      <description>
+        UTC month.
+      </description>
+    </field>
+    <field name="UTC Day" abbrev="utc_day" type="uint8_t">
+      <description>
+        UTC day.
+      </description>
+    </field>
+    <field name="UTC Time of Fix" abbrev="utc_time" type="fp32_t" unit="s">
+      <description>
+        UTC time of the GPS fix measured in seconds since 00:00:00 (midnight).
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude coordinate.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude coordinate.
+      </description>
+    </field>
+    <field name="Height above WGS-84 ellipsoid" abbrev="height" type="fp32_t" unit="m">
+      <description>
+        Height above WGS-84 ellipsoid.
+      </description>
+    </field>
+    <field name="Number of Satellites" abbrev="satellites" type="uint8_t">
+      <description>
+        Number of satellites used by the GPS device to compute the
+        solution.
+      </description>
+    </field>
+    <field name="Course Over Ground" abbrev="cog" type="fp32_t" unit="rad">
+      <description>
+        Course Over Ground (true).
+      </description>
+    </field>
+    <field name="Speed Over Ground" abbrev="sog" type="fp32_t" unit="m/s">
+      <description>
+        Speed Over Ground.
+      </description>
+    </field>
+    <field name="Horizontal Dilution of Precision" abbrev="hdop" type="fp32_t">
+      <description>
+        Horizontal dilution of precision.
+      </description>
+    </field>
+    <field name="Vertical Dilution of Precision" abbrev="vdop" type="fp32_t">
+      <description>
+        Vertical dilution of precision.
+      </description>
+    </field>
+    <field name="Horizontal Accuracy Estimate" abbrev="hacc" type="fp32_t" unit="m">
+      <description>
+        Horizontal Accuracy Estimate.
+      </description>
+    </field>
+    <field name="Vertical Accuracy Estimate" abbrev="vacc" type="fp32_t" unit="m">
+      <description>
+        Vertical Accuracy Estimate.
       </description>
     </field>
   </message>

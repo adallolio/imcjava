@@ -81,9 +81,10 @@ public class DesiredHeading extends ControlCommand {
 		return m;
 	}
 
-	public DesiredHeading(double value) {
+	public DesiredHeading(double value, float off) {
 		super(ID_STATIC);
 		setValue(value);
+		setOff(off);
 	}
 
 	/**
@@ -98,6 +99,21 @@ public class DesiredHeading extends ControlCommand {
 	 */
 	public DesiredHeading setValue(double value) {
 		values.put("value", value);
+		return this;
+	}
+
+	/**
+	 *  @return Offset (°) - fp32_t
+	 */
+	public double getOff() {
+		return getDouble("off");
+	}
+
+	/**
+	 *  @param off Offset (°)
+	 */
+	public DesiredHeading setOff(double off) {
+		values.put("off", off);
 		return this;
 	}
 

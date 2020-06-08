@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Relative Wind (914)<br/>
- *  Measurement of relative wind speed and angle.<br/>
+ *  IMC Message Absolute Wind (919)<br/>
+ *  Wind direction wrt North and wind speed.<br/>
  */
 
-public class RelativeWind extends IMCMessage {
+public class AbsoluteWind extends IMCMessage {
 
-	public static final int ID_STATIC = 914;
+	public static final int ID_STATIC = 919;
 
-	public RelativeWind() {
+	public AbsoluteWind() {
 		super(ID_STATIC);
 	}
 
-	public RelativeWind(IMCMessage msg) {
+	public AbsoluteWind(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class RelativeWind extends IMCMessage {
 		}
 	}
 
-	public RelativeWind(IMCDefinition defs) {
+	public AbsoluteWind(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RelativeWind create(Object... values) {
-		RelativeWind m = new RelativeWind();
+	public static AbsoluteWind create(Object... values) {
+		AbsoluteWind m = new AbsoluteWind();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RelativeWind clone(IMCMessage msg) throws Exception {
+	public static AbsoluteWind clone(IMCMessage msg) throws Exception {
 
-		RelativeWind m = new RelativeWind();
+		AbsoluteWind m = new AbsoluteWind();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,24 +81,24 @@ public class RelativeWind extends IMCMessage {
 		return m;
 	}
 
-	public RelativeWind(float angle, float speed) {
+	public AbsoluteWind(float dir, float speed) {
 		super(ID_STATIC);
-		setAngle(angle);
+		setDir(dir);
 		setSpeed(speed);
 	}
 
 	/**
-	 *  @return Angle (°) - fp32_t
+	 *  @return Direction (°) - fp32_t
 	 */
-	public double getAngle() {
-		return getDouble("angle");
+	public double getDir() {
+		return getDouble("dir");
 	}
 
 	/**
-	 *  @param angle Angle (°)
+	 *  @param dir Direction (°)
 	 */
-	public RelativeWind setAngle(double angle) {
-		values.put("angle", angle);
+	public AbsoluteWind setDir(double dir) {
+		values.put("dir", dir);
 		return this;
 	}
 
@@ -112,7 +112,7 @@ public class RelativeWind extends IMCMessage {
 	/**
 	 *  @param speed Speed (m/s)
 	 */
-	public RelativeWind setSpeed(double speed) {
+	public AbsoluteWind setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
 	}

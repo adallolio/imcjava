@@ -342,8 +342,6 @@ public class MessageFactory {
 				return new GroupStreamVelocity(defs);
 			case Airflow.ID_STATIC:
 				return new Airflow(defs);
-			case ObstacleState.ID_STATIC:
-				return new ObstacleState(defs);
 			case DesiredHeading.ID_STATIC:
 				return new DesiredHeading(defs);
 			case DesiredZ.ID_STATIC:
@@ -556,6 +554,8 @@ public class MessageFactory {
 				return new ReportedState(defs);
 			case RemoteSensorInfo.ID_STATIC:
 				return new RemoteSensorInfo(defs);
+			case AisInfo.ID_STATIC:
+				return new AisInfo(defs);
 			case Map.ID_STATIC:
 				return new Map(defs);
 			case MapFeature.ID_STATIC:
@@ -564,8 +564,6 @@ public class MessageFactory {
 				return new MapPoint(defs);
 			case CcuEvent.ID_STATIC:
 				return new CcuEvent(defs);
-			case AisStaticInfo.ID_STATIC:
-				return new AisStaticInfo(defs);
 			case VehicleLinks.ID_STATIC:
 				return new VehicleLinks(defs);
 			case TrexObservation.ID_STATIC:
@@ -698,8 +696,16 @@ public class MessageFactory {
 				return new VesselWind(defs);
 			case RelativeWind.ID_STATIC:
 				return new RelativeWind(defs);
+			case AbsoluteWind.ID_STATIC:
+				return new AbsoluteWind(defs);
 			case CurrentVelocity.ID_STATIC:
 				return new CurrentVelocity(defs);
+			case CollisionAvoidance.ID_STATIC:
+				return new CollisionAvoidance(defs);
+			case Surroundings.ID_STATIC:
+				return new Surroundings(defs);
+			case Heave.ID_STATIC:
+				return new Heave(defs);
 			case AcousticBackscatter.ID_STATIC:
 				return new AcousticBackscatter(defs);
 			case Correlation.ID_STATIC:
@@ -708,6 +714,14 @@ public class MessageFactory {
 				return new CurrentProfileCell(defs);
 			case CurrentProfile.ID_STATIC:
 				return new CurrentProfile(defs);
+			case TBRFishTag.ID_STATIC:
+				return new TBRFishTag(defs);
+			case TBRSensor.ID_STATIC:
+				return new TBRSensor(defs);
+			case IridiumReport.ID_STATIC:
+				return new IridiumReport(defs);
+			case AisGpsFix.ID_STATIC:
+				return new AisGpsFix(defs);
 			default:
 				return new IMCMessage(defs);
 		}

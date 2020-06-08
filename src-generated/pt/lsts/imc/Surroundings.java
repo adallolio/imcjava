@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Relative Wind (914)<br/>
- *  Measurement of relative wind speed and angle.<br/>
+ *  IMC Message Bathymetry Surroundings (917)<br/>
+ *  Contains locations with their depth/elevation as extracted from a digital map.<br/>
  */
 
-public class RelativeWind extends IMCMessage {
+public class Surroundings extends IMCMessage {
 
-	public static final int ID_STATIC = 914;
+	public static final int ID_STATIC = 917;
 
-	public RelativeWind() {
+	public Surroundings() {
 		super(ID_STATIC);
 	}
 
-	public RelativeWind(IMCMessage msg) {
+	public Surroundings(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class RelativeWind extends IMCMessage {
 		}
 	}
 
-	public RelativeWind(IMCDefinition defs) {
+	public Surroundings(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RelativeWind create(Object... values) {
-		RelativeWind m = new RelativeWind();
+	public static Surroundings create(Object... values) {
+		Surroundings m = new Surroundings();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RelativeWind clone(IMCMessage msg) throws Exception {
+	public static Surroundings clone(IMCMessage msg) throws Exception {
 
-		RelativeWind m = new RelativeWind();
+		Surroundings m = new Surroundings();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,39 +81,30 @@ public class RelativeWind extends IMCMessage {
 		return m;
 	}
 
-	public RelativeWind(float angle, float speed) {
+	public Surroundings(String locations) {
 		super(ID_STATIC);
-		setAngle(angle);
-		setSpeed(speed);
+		if (locations != null)
+			setLocations(locations);
 	}
 
 	/**
-	 *  @return Angle (°) - fp32_t
+	 *  @return Locations (tuplelist) - plaintext
 	 */
-	public double getAngle() {
-		return getDouble("angle");
+	public java.util.LinkedHashMap<String, String> getLocations() {
+		return getTupleList("locations");
 	}
 
 	/**
-	 *  @param angle Angle (°)
+	 *  @param locations Locations (tuplelist)
 	 */
-	public RelativeWind setAngle(double angle) {
-		values.put("angle", angle);
+	public Surroundings setLocations(java.util.LinkedHashMap<String, ?> locations) {
+		String val = encodeTupleList(locations);
+		values.put("locations", val);
 		return this;
 	}
 
-	/**
-	 *  @return Speed (m/s) - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  @param speed Speed (m/s)
-	 */
-	public RelativeWind setSpeed(double speed) {
-		values.put("speed", speed);
+	public Surroundings setLocations(String locations) {
+		values.put("locations", locations);
 		return this;
 	}
 
