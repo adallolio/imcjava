@@ -31,19 +31,20 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Current Profile Cell (1014)<br/>
- *  Raw Current measurement at CellPosition along the Z-axis in the ADCP sensor frame.<br/>
+ *  IMC Message ADCP Beam Measurements (1016)<br/>
+ *  Water Velocity is provided in the chosen coordinate system.<br/>
+ *  Amplitude and Correlation are always in the beam coordinate system.<br/>
  */
 
-public class CurrentProfileCell extends IMCMessage {
+public class ADCPBeam extends IMCMessage {
 
-	public static final int ID_STATIC = 1014;
+	public static final int ID_STATIC = 1016;
 
-	public CurrentProfileCell() {
+	public ADCPBeam() {
 		super(ID_STATIC);
 	}
 
-	public CurrentProfileCell(IMCMessage msg) {
+	public ADCPBeam(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +54,20 @@ public class CurrentProfileCell extends IMCMessage {
 		}
 	}
 
-	public CurrentProfileCell(IMCDefinition defs) {
+	public ADCPBeam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CurrentProfileCell create(Object... values) {
-		CurrentProfileCell m = new CurrentProfileCell();
+	public static ADCPBeam create(Object... values) {
+		ADCPBeam m = new ADCPBeam();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CurrentProfileCell clone(IMCMessage msg) throws Exception {
+	public static ADCPBeam clone(IMCMessage msg) throws Exception {
 
-		CurrentProfileCell m = new CurrentProfileCell();
+		ADCPBeam m = new ADCPBeam();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,46 +82,55 @@ public class CurrentProfileCell extends IMCMessage {
 		return m;
 	}
 
-	public CurrentProfileCell(float CellPosition, java.util.Collection<ADCPBeam> beams) {
+	public ADCPBeam(float vel, float amp, short cor) {
 		super(ID_STATIC);
-		setCellPosition(CellPosition);
-		if (beams != null)
-			setBeams(beams);
+		setVel(vel);
+		setAmp(amp);
+		setCor(cor);
 	}
 
 	/**
-	 *  @return Cell Position (m) - fp32_t
+	 *  @return Water Velocity (m/s) - fp32_t
 	 */
-	public double getCellPosition() {
-		return getDouble("CellPosition");
+	public double getVel() {
+		return getDouble("vel");
 	}
 
 	/**
-	 *  @param CellPosition Cell Position (m)
+	 *  @param vel Water Velocity (m/s)
 	 */
-	public CurrentProfileCell setCellPosition(double CellPosition) {
-		values.put("CellPosition", CellPosition);
+	public ADCPBeam setVel(double vel) {
+		values.put("vel", vel);
 		return this;
 	}
 
 	/**
-	 *  @return Beams Measurements - message-list
+	 *  @return Amplitude (db) - fp32_t
 	 */
-	public java.util.Vector<ADCPBeam> getBeams() {
-		try {
-			return getMessageList("beams", ADCPBeam.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
+	public double getAmp() {
+		return getDouble("amp");
 	}
 
 	/**
-	 *  @param beams Beams Measurements
+	 *  @param amp Amplitude (db)
 	 */
-	public CurrentProfileCell setBeams(java.util.Collection<ADCPBeam> beams) {
-		values.put("beams", beams);
+	public ADCPBeam setAmp(double amp) {
+		values.put("amp", amp);
+		return this;
+	}
+
+	/**
+	 *  @return Correlation (%) - uint8_t
+	 */
+	public short getCor() {
+		return (short) getInteger("cor");
+	}
+
+	/**
+	 *  @param cor Correlation (%)
+	 */
+	public ADCPBeam setCor(short cor) {
+		values.put("cor", cor);
 		return this;
 	}
 

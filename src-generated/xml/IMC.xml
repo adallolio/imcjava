@@ -11129,66 +11129,9 @@
         Distance of each measurment cell along the Z-axis in the sensor frame.
       </description>
     </field>
-    <field name="Vel X" abbrev="x" type="fp32_t" unit="m/s">
+    <field name="Beams Measurements" abbrev="beams" type="message-list" message-type="ADCPBeam">
       <description>
-        X velocity component
-      </description>
-    </field>
-    <field name="Vel Y" abbrev="y" type="fp32_t" unit="m/s">
-      <description>
-        Y velocity component
-      </description>
-    </field>
-    <field name="Vel Z1" abbrev="z1" type="fp32_t" unit="m/s">
-      <description>
-        Z1 velocity component
-      </description>
-    </field>
-    <field name="Vel Z2" abbrev="z2" type="fp32_t" unit="m/s">
-      <description>
-        Z2 velocity component
-      </description>
-    </field>
-
-    <field name="Amp 0" abbrev="amp0" type="fp32_t" unit="dB">
-      <description>
-        Amplitude of returning ping for beam 0
-      </description>
-    </field>
-    <field name="Amp 1" abbrev="amp1" type="fp32_t" unit="dB">
-      <description>
-        Amplitude of returning ping for beam 1
-      </description>
-    </field>
-    <field name="Amp 2" abbrev="amp2" type="fp32_t" unit="dB">
-      <description>
-        Amplitude of returning ping for beam 2
-      </description>
-    </field>
-    <field name="Amp 3" abbrev="amp3" type="fp32_t" unit="dB">
-      <description>
-        Amplitude of returning ping for beam 3
-      </description>
-    </field>
-
-    <field name="Cor 0" abbrev="cor0" type="uint8_t" unit="%" max="100" min="0">
-      <description>
-        Correlation of a given beam measurement relative to the other beam measurements.
-      </description>
-    </field>
-    <field name="Cor 1" abbrev="cor1" type="uint8_t" unit="%" max="100" min="0">
-      <description>
-        Correlation of a given beam measurement relative to the other beam measurements.
-      </description>
-    </field>
-    <field name="Cor 2" abbrev="cor2" type="uint8_t" unit="%" max="100" min="0">
-      <description>
-        Correlation of a given beam measurement relative to the other beam measurements.
-      </description>
-    </field>
-    <field name="Cor 3" abbrev="cor3" type="uint8_t" unit="%" max="100" min="0">
-      <description>
-        Correlation of a given beam measurement relative to the other beam measurements.
+        List of beams measurements at the current cell level.
       </description>
     </field>
   </message>
@@ -11198,9 +11141,48 @@
       Raw Current Profile along the Z-axis of the sensor frame. Contains velocity of water
       relative to the vehicle velocity represented in the sensor coordinate frame.
     </description>
+    <field name="Number of Beams" abbrev="beams" type="uint8_t">
+      <description>
+        Number of ADCP beams.
+      </description>
+    </field>
+    <field name="Number of Cells" abbrev="cells" type="uint8_t">
+      <description>
+        Number of ADCP cells.
+      </description>
+    </field>
+    <field name="Coordinate System" abbrev="coord_sys" type="uint8_t" unit="Bitfield" prefix="UTF">
+      <description>
+        Coordinate system of the velocity measurement: XYZ, BEAMS.
+      </description>
+      <value abbrev="XYZ" name="xyz" id="0x01"/>
+      <value abbrev="BEAMS" name="beams" id="0x02"/>
+    </field>
     <field name="Profile" abbrev="prof" type="message-list" message-type="CurrentProfileCell">
       <description>
         List of current profile measurement cells.
+      </description>
+    </field>
+  </message>
+
+  <message id="1016" name="ADCP Beam Measurements" abbrev="ADCPBeam" source="vehicle" flags="periodic">
+    <description>
+      Water Velocity is provided in the chosen coordinate system.
+      Amplitude and Correlation are always in the beam coordinate system.
+    </description>
+    <field name="Water Velocity" abbrev="vel" type="fp32_t" unit="m/s">
+      <description>
+        Water velocity measured in the chosen coordinate system.
+      </description>
+    </field>
+    <field name="Amplitude" abbrev="amp" type="fp32_t" unit="dB">
+      <description>
+        Amplitude of returning ping for beam 0.
+      </description>
+    </field>
+    <field name="Correlation" abbrev="cor" type="uint8_t" unit="%" max="100" min="0">
+      <description>
+        Autocorrelation of measured signal.
       </description>
     </field>
   </message>

@@ -714,6 +714,8 @@ public class MessageFactory {
 				return new CurrentProfileCell(defs);
 			case CurrentProfile.ID_STATIC:
 				return new CurrentProfile(defs);
+			case ADCPBeam.ID_STATIC:
+				return new ADCPBeam(defs);
 			case TBRFishTag.ID_STATIC:
 				return new TBRFishTag(defs);
 			case TBRSensor.ID_STATIC:

@@ -38,6 +38,9 @@ package pt.lsts.imc;
 
 public class CurrentProfile extends IMCMessage {
 
+	public static final short UTF_XYZ = 0x01;
+	public static final short UTF_BEAMS = 0x02;
+
 	public static final int ID_STATIC = 1015;
 
 	public CurrentProfile() {
@@ -82,10 +85,58 @@ public class CurrentProfile extends IMCMessage {
 		return m;
 	}
 
-	public CurrentProfile(java.util.Collection<CurrentProfileCell> prof) {
+	public CurrentProfile(short beams, short cells, short coord_sys, java.util.Collection<CurrentProfileCell> prof) {
 		super(ID_STATIC);
+		setBeams(beams);
+		setCells(cells);
+		setCoordSys(coord_sys);
 		if (prof != null)
 			setProf(prof);
+	}
+
+	/**
+	 *  @return Number of Beams - uint8_t
+	 */
+	public short getBeams() {
+		return (short) getInteger("beams");
+	}
+
+	/**
+	 *  @param beams Number of Beams
+	 */
+	public CurrentProfile setBeams(short beams) {
+		values.put("beams", beams);
+		return this;
+	}
+
+	/**
+	 *  @return Number of Cells - uint8_t
+	 */
+	public short getCells() {
+		return (short) getInteger("cells");
+	}
+
+	/**
+	 *  @param cells Number of Cells
+	 */
+	public CurrentProfile setCells(short cells) {
+		values.put("cells", cells);
+		return this;
+	}
+
+	/**
+	 *  @return Coordinate System (bitfield) - uint8_t
+	 */
+	public short getCoordSys() {
+		return (short) getInteger("coord_sys");
+	}
+
+	/**
+	 *  @param coord_sys Coordinate System (bitfield)
+	 */
+	public CurrentProfile setCoordSys(short coord_sys) {
+		values.put("coord_sys", coord_sys);
+		return this;
 	}
 
 	/**
