@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message L3 Scientific Sensors (2010)<br/>
+ *  IMC Message Reply L3 Scientific Sensors (2011)<br/>
  *  Activation/deactivation of scientific sensors.<br/>
  */
 
-public class ScienceSensors extends IMCMessage {
+public class ScienceSensorsReply extends IMCMessage {
 
-	public static final int ID_STATIC = 2010;
+	public static final int ID_STATIC = 2011;
 
-	public ScienceSensors() {
+	public ScienceSensorsReply() {
 		super(ID_STATIC);
 	}
 
-	public ScienceSensors(IMCMessage msg) {
+	public ScienceSensorsReply(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ScienceSensors extends IMCMessage {
 		}
 	}
 
-	public ScienceSensors(IMCDefinition defs) {
+	public ScienceSensorsReply(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ScienceSensors create(Object... values) {
-		ScienceSensors m = new ScienceSensors();
+	public static ScienceSensorsReply create(Object... values) {
+		ScienceSensorsReply m = new ScienceSensorsReply();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ScienceSensors clone(IMCMessage msg) throws Exception {
+	public static ScienceSensorsReply clone(IMCMessage msg) throws Exception {
 
-		ScienceSensors m = new ScienceSensors();
+		ScienceSensorsReply m = new ScienceSensorsReply();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,7 +81,7 @@ public class ScienceSensors extends IMCMessage {
 		return m;
 	}
 
-	public ScienceSensors(byte adcp, long adcp_dur, long adcp_fr, byte ctd, long ctd_dur, long ctd_fr, byte opt, long opt_dur, long opt_fr, byte tbl, long tbl_dur, long tbl_fr, byte eco, long eco_dur, long eco_fr, byte par, long par_dur, long par_fr) {
+	public ScienceSensorsReply(byte adcp, long adcp_dur, long adcp_fr, byte ctd, long ctd_dur, long ctd_fr, byte opt, long opt_dur, long opt_fr, byte tbl, long tbl_dur, long tbl_fr, byte eco, long eco_dur, long eco_fr, byte par, long par_dur, long par_fr) {
 		super(ID_STATIC);
 		setAdcp(adcp);
 		setAdcpDur(adcp_dur);
@@ -113,7 +113,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param adcp ADCP
 	 */
-	public ScienceSensors setAdcp(byte adcp) {
+	public ScienceSensorsReply setAdcp(byte adcp) {
 		values.put("adcp", adcp);
 		return this;
 	}
@@ -128,7 +128,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param adcp_dur ADCP duration (s)
 	 */
-	public ScienceSensors setAdcpDur(long adcp_dur) {
+	public ScienceSensorsReply setAdcpDur(long adcp_dur) {
 		values.put("adcp_dur", adcp_dur);
 		return this;
 	}
@@ -143,7 +143,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param adcp_fr ADCP activation frequency (s)
 	 */
-	public ScienceSensors setAdcpFr(long adcp_fr) {
+	public ScienceSensorsReply setAdcpFr(long adcp_fr) {
 		values.put("adcp_fr", adcp_fr);
 		return this;
 	}
@@ -158,7 +158,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param ctd CTD
 	 */
-	public ScienceSensors setCtd(byte ctd) {
+	public ScienceSensorsReply setCtd(byte ctd) {
 		values.put("ctd", ctd);
 		return this;
 	}
@@ -173,7 +173,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param ctd_dur CTD duration (s)
 	 */
-	public ScienceSensors setCtdDur(long ctd_dur) {
+	public ScienceSensorsReply setCtdDur(long ctd_dur) {
 		values.put("ctd_dur", ctd_dur);
 		return this;
 	}
@@ -188,7 +188,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param ctd_fr CTD activation frequency (s)
 	 */
-	public ScienceSensors setCtdFr(long ctd_fr) {
+	public ScienceSensorsReply setCtdFr(long ctd_fr) {
 		values.put("ctd_fr", ctd_fr);
 		return this;
 	}
@@ -203,7 +203,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param opt OPTODE
 	 */
-	public ScienceSensors setOpt(byte opt) {
+	public ScienceSensorsReply setOpt(byte opt) {
 		values.put("opt", opt);
 		return this;
 	}
@@ -218,7 +218,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param opt_dur OPTODE duration (s)
 	 */
-	public ScienceSensors setOptDur(long opt_dur) {
+	public ScienceSensorsReply setOptDur(long opt_dur) {
 		values.put("opt_dur", opt_dur);
 		return this;
 	}
@@ -233,7 +233,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param opt_fr OPTODE activation frequency (s)
 	 */
-	public ScienceSensors setOptFr(long opt_fr) {
+	public ScienceSensorsReply setOptFr(long opt_fr) {
 		values.put("opt_fr", opt_fr);
 		return this;
 	}
@@ -248,7 +248,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param tbl TBLive
 	 */
-	public ScienceSensors setTbl(byte tbl) {
+	public ScienceSensorsReply setTbl(byte tbl) {
 		values.put("tbl", tbl);
 		return this;
 	}
@@ -263,7 +263,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param tbl_dur TBLive duration (s)
 	 */
-	public ScienceSensors setTblDur(long tbl_dur) {
+	public ScienceSensorsReply setTblDur(long tbl_dur) {
 		values.put("tbl_dur", tbl_dur);
 		return this;
 	}
@@ -278,7 +278,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param tbl_fr TBLive activation frequency (s)
 	 */
-	public ScienceSensors setTblFr(long tbl_fr) {
+	public ScienceSensorsReply setTblFr(long tbl_fr) {
 		values.put("tbl_fr", tbl_fr);
 		return this;
 	}
@@ -293,7 +293,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param eco EcoPuck
 	 */
-	public ScienceSensors setEco(byte eco) {
+	public ScienceSensorsReply setEco(byte eco) {
 		values.put("eco", eco);
 		return this;
 	}
@@ -308,7 +308,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param eco_dur EcoPuck duration (s)
 	 */
-	public ScienceSensors setEcoDur(long eco_dur) {
+	public ScienceSensorsReply setEcoDur(long eco_dur) {
 		values.put("eco_dur", eco_dur);
 		return this;
 	}
@@ -323,7 +323,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param eco_fr EcoPuck activation frequency (s)
 	 */
-	public ScienceSensors setEcoFr(long eco_fr) {
+	public ScienceSensorsReply setEcoFr(long eco_fr) {
 		values.put("eco_fr", eco_fr);
 		return this;
 	}
@@ -338,7 +338,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param par EcoPAR
 	 */
-	public ScienceSensors setPar(byte par) {
+	public ScienceSensorsReply setPar(byte par) {
 		values.put("par", par);
 		return this;
 	}
@@ -353,7 +353,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param par_dur EcoPAR duration (s)
 	 */
-	public ScienceSensors setParDur(long par_dur) {
+	public ScienceSensorsReply setParDur(long par_dur) {
 		values.put("par_dur", par_dur);
 		return this;
 	}
@@ -368,7 +368,7 @@ public class ScienceSensors extends IMCMessage {
 	/**
 	 *  @param par_fr EcoPAR activation frequency (s)
 	 */
-	public ScienceSensors setParFr(long par_fr) {
+	public ScienceSensorsReply setParFr(long par_fr) {
 		values.put("par_fr", par_fr);
 		return this;
 	}

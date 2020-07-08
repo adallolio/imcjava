@@ -724,6 +724,10 @@ public class MessageFactory {
 				return new IridiumReport(defs);
 			case ScienceSensors.ID_STATIC:
 				return new ScienceSensors(defs);
+			case ScienceSensorsReply.ID_STATIC:
+				return new ScienceSensorsReply(defs);
+			case PAR.ID_STATIC:
+				return new PAR(defs);
 			case AisGpsFix.ID_STATIC:
 				return new AisGpsFix(defs);
 			default:

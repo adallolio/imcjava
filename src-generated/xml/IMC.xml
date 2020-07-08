@@ -213,6 +213,8 @@
     <unit abbrev="px" name="Pixel"/>
     <unit abbrev="µg/L" name="Microgram per liter"/>
     <unit abbrev="µM" name="Micromolar"/>
+    <unit abbrev="µmol" name="Micromole"/>
+    <unit abbrev="par" name="PAR"/>
     <unit abbrev="rad" name="Radian"/>
     <unit abbrev="rad/s" name="Radian per second"/>
     <unit abbrev="rpm" name="Revolutions per minute"/>
@@ -11381,7 +11383,137 @@
       <description>
         Enables periodical sampling at specified frequency (s).
       </description>
+    </field>
+    <field name="EcoPAR" abbrev="par" type="int8_t">
+      <description>
+        EcoPAR: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="EcoPAR duration" abbrev="par_dur" type="uint32_t" unit="s">
+      <description>
+        EcoPAR sampling duration.
+        eco_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="EcoPAR activation frequency" abbrev="par_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
+    </field>
+  </message>
+
+  <message id="2011" name="Reply L3 Scientific Sensors" abbrev="ScienceSensorsReply" source="vehicle,ccu">
+    <description>
+      Activation/deactivation of scientific sensors.
+    </description>
+    <field name="ADCP" abbrev="adcp" type="int8_t">
+      <description>
+        ADCP: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="ADCP duration" abbrev="adcp_dur" type="uint32_t" unit="s">
+      <description>
+        ADCP sampling duration.
+        adcp_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="ADCP activation frequency" abbrev="adcp_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
+    </field>
+    <field name="CTD" abbrev="ctd" type="int8_t">
+      <description>
+        CTD: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="CTD duration" abbrev="ctd_dur" type="uint32_t" unit="s">
+      <description>
+        CTD sampling duration.
+        ctd_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="CTD activation frequency" abbrev="ctd_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
+    </field>
+    <field name="OPTODE" abbrev="opt" type="int8_t">
+      <description>
+        OPTODE: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="OPTODE duration" abbrev="opt_dur" type="uint32_t" unit="s">
+      <description>
+        OPTODE sampling duration.
+        opt_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="OPTODE activation frequency" abbrev="opt_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
+    </field>
+    <field name="TBLive" abbrev="tbl" type="int8_t">
+      <description>
+        TBLive: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="TBLive duration" abbrev="tbl_dur" type="uint32_t" unit="s">
+      <description>
+        TBLive sampling duration.
+        tbl_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="TBLive activation frequency" abbrev="tbl_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
+    </field>
+    <field name="EcoPuck" abbrev="eco" type="int8_t">
+      <description>
+        EcoPuck: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="EcoPuck duration" abbrev="eco_dur" type="uint32_t" unit="s">
+      <description>
+        EcoPuck sampling duration.
+        eco_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="EcoPuck activation frequency" abbrev="eco_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
+    </field>
+    <field name="EcoPAR" abbrev="par" type="int8_t">
+      <description>
+        EcoPAR: 0=ON, 1=OFF, 2=REBOOT, 3=NO_CHANGE.
+      </description>
+    </field>
+    <field name="EcoPAR duration" abbrev="par_dur" type="uint32_t" unit="s">
+      <description>
+        EcoPAR sampling duration.
+        eco_dur = 0: sensor always on.
+      </description>
+    </field>
+    <field name="EcoPAR activation frequency" abbrev="par_fr" type="uint32_t" unit="s">
+      <description>
+        Enables periodical sampling at specified frequency (s).
+      </description>
     </field>    
+  </message>
+
+  <message id="2012" name="Photosynthetically Active Radiation" abbrev="PAR" source="vehicle" flags="periodic">
+    <description>
+      Photosynthetically Active Radiation (PAR) measurement.
+    </description>
+    <field name="Value" abbrev="value" type="fp32_t" unit="par">
+      <description>
+        PAR reading.
+        PAR is measured in µmol photons/m^2/s.
+      </description>
+    </field>
   </message>
 
   <message id="920" name="AIS GPS" abbrev="AisGpsFix" source="vehicle" flags="periodic">
