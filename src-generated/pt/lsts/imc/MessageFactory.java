@@ -730,6 +730,8 @@ public class MessageFactory {
 				return new PAR(defs);
 			case AisGpsFix.ID_STATIC:
 				return new AisGpsFix(defs);
+			case SingleCurrentCell.ID_STATIC:
+				return new SingleCurrentCell(defs);
 			default:
 				return new IMCMessage(defs);
 		}

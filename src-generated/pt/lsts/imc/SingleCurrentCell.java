@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Current Profile Cell (1014)<br/>
- *  Raw Current measurement at CellPosition along the Z-axis in the ADCP sensor frame.<br/>
+ *  IMC Message Single Current Cell (2013)<br/>
+ *  Underwater current Velocity and Direction at chosen depth.<br/>
  */
 
-public class CurrentProfileCell extends IMCMessage {
+public class SingleCurrentCell extends IMCMessage {
 
-	public static final int ID_STATIC = 1014;
+	public static final int ID_STATIC = 2013;
 
-	public CurrentProfileCell() {
+	public SingleCurrentCell() {
 		super(ID_STATIC);
 	}
 
-	public CurrentProfileCell(IMCMessage msg) {
+	public SingleCurrentCell(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class CurrentProfileCell extends IMCMessage {
 		}
 	}
 
-	public CurrentProfileCell(IMCDefinition defs) {
+	public SingleCurrentCell(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CurrentProfileCell create(Object... values) {
-		CurrentProfileCell m = new CurrentProfileCell();
+	public static SingleCurrentCell create(Object... values) {
+		SingleCurrentCell m = new SingleCurrentCell();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CurrentProfileCell clone(IMCMessage msg) throws Exception {
+	public static SingleCurrentCell clone(IMCMessage msg) throws Exception {
 
-		CurrentProfileCell m = new CurrentProfileCell();
+		SingleCurrentCell m = new SingleCurrentCell();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,46 +81,90 @@ public class CurrentProfileCell extends IMCMessage {
 		return m;
 	}
 
-	public CurrentProfileCell(float pos, java.util.Collection<ADCPBeam> beams) {
+	public SingleCurrentCell(double lat, double lon, String depth, String vel, String dir) {
 		super(ID_STATIC);
-		setPos(pos);
-		if (beams != null)
-			setBeams(beams);
+		setLat(lat);
+		setLon(lon);
+		if (depth != null)
+			setDepth(depth);
+		if (vel != null)
+			setVel(vel);
+		if (dir != null)
+			setDir(dir);
 	}
 
 	/**
-	 *  @return Cell Position (m) - fp32_t
+	 *  @return Latitude WGS-84 (rad) - fp64_t
 	 */
-	public double getPos() {
-		return getDouble("pos");
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
-	 *  @param pos Cell Position (m)
+	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public CurrentProfileCell setPos(double pos) {
-		values.put("pos", pos);
+	public SingleCurrentCell setLat(double lat) {
+		values.put("lat", lat);
 		return this;
 	}
 
 	/**
-	 *  @return Beams Measurements - message-list
+	 *  @return Longitude WGS-84 (rad) - fp64_t
 	 */
-	public java.util.Vector<ADCPBeam> getBeams() {
-		try {
-			return getMessageList("beams", ADCPBeam.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
-	 *  @param beams Beams Measurements
+	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public CurrentProfileCell setBeams(java.util.Collection<ADCPBeam> beams) {
-		values.put("beams", beams);
+	public SingleCurrentCell setLon(double lon) {
+		values.put("lon", lon);
+		return this;
+	}
+
+	/**
+	 *  @return Cell Depth - plaintext
+	 */
+	public String getDepth() {
+		return getString("depth");
+	}
+
+	/**
+	 *  @param depth Cell Depth
+	 */
+	public SingleCurrentCell setDepth(String depth) {
+		values.put("depth", depth);
+		return this;
+	}
+
+	/**
+	 *  @return Water Velocity - plaintext
+	 */
+	public String getVel() {
+		return getString("vel");
+	}
+
+	/**
+	 *  @param vel Water Velocity
+	 */
+	public SingleCurrentCell setVel(String vel) {
+		values.put("vel", vel);
+		return this;
+	}
+
+	/**
+	 *  @return Direction - plaintext
+	 */
+	public String getDir() {
+		return getString("dir");
+	}
+
+	/**
+	 *  @param dir Direction
+	 */
+	public SingleCurrentCell setDir(String dir) {
+		values.put("dir", dir);
 		return this;
 	}
 
